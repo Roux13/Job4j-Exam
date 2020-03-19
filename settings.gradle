@@ -1,0 +1,2 @@
+rootProject.name='Job4j Exam'
+include ':app'
