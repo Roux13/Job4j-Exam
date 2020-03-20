@@ -1,4 +1,4 @@
-#Job4j Exam
+# Job4j Exam
 
 It is a Android application for testing for a knowledge of the Java programming language.
 
@@ -6,13 +6,13 @@ The app has one screen now.
 
 ![Image of Job4jExamFirstScreen](/images/Job4jExamFirstScreen.png)
 
-##Configuration
+## Configuration
 
 Anything...
 
-##Usage
+## Usage
 
 Anything...
 
-##Contacts
+## Contacts
  skype: roux13333
