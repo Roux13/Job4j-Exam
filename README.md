@@ -1,1 +1,1 @@
-![Image of Job4jExamFirstScreen](https://octodex.github.com/images/Job4jExamFirstScreen.png)
+![Image of Job4jExamFirstScreen](/images/Job4jExamFirstScreen.png)
