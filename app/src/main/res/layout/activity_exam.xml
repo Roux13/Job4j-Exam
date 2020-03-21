@@ -6,9 +6,10 @@
     android:gravity="center">
 
     <TextView
+        style="@style/CustomText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello, Petr Arsentev!" />
+        android:text="@string/hello" />
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -19,25 +20,25 @@
             android:id="@+id/radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="@string/radio_button1" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="@string/radio_button2" />
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="@string/radio_button3" />
 
         <RadioButton
             android:id="@+id/radioButton4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="@string/radio_button4" />
 
     </RadioGroup>
 
@@ -47,17 +48,19 @@
         android:orientation="horizontal">
 
         <Button
+            style="@style/CustomButton"
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Previous" />
+            android:text="@string/back_button" />
 
         <Button
+            style="@style/CustomButton"
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Next" />
+            android:text="@string/next_button" />
     </LinearLayout>
 </LinearLayout>
