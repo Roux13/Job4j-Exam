@@ -4,7 +4,7 @@ It is a Android application for testing for a knowledge of the Java programming 
 
 The app has one screen now.
 
-![Image of Job4jExamFirstScreen](/images/Job4jExamFirstScreen.png)
+![Image of Job4jExamFirstScreen](/images/Job4jExamFirstScreen1.png)
 
 ## Configuration
 
