@@ -8,4 +8,13 @@
         <item>Московская</item>
         <item>СПб</item>
     </string-array>
+    <string name="data_prompt">Выберите область</string>
+    <string-array name="data_arrays">
+        <item>Выберите дату</item>
+        <item>01.03.20</item>
+        <item>02.03.20</item>
+        <item>04.03.20</item>
+        <item>05.03.20</item>
+        <item>06.03.20</item>
+    </string-array>
 </resources>
