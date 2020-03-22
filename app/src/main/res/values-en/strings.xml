@@ -19,4 +19,8 @@
     <string name="exp_date">Test date</string>
     <string name="data_prompt">Choose a date</string>
     <string name="domain">Domain</string>
+    <string name="hint">Hint</string>
+    <string name="test_result">Test result</string>
+    <string name="correct_answers">Correct answers</string>
+    <string name="count_questions">Count of the questions</string>
 </resources>
