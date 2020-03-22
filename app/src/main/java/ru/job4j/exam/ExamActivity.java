@@ -59,36 +59,11 @@ public class ExamActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_exam);
         this.fillForm();
-        final Button next = findViewById(R.id.next);
         final RadioGroup variants = findViewById(R.id.variants);
-        next.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (variants.getCheckedRadioButtonId() != -1) {
-                            userAnswers[position] = variants.getCheckedRadioButtonId();
-                            showAnswer();
-                            position++;
-                            variants.clearCheck();
-                            fillForm();
-                        }
-                    }
-                }
-        );
-        Button previous = findViewById(R.id.previous);
-        previous.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (variants.getCheckedRadioButtonId() != -1) {
-                            userAnswers[position] = variants.getCheckedRadioButtonId();
-                            position--;
-                            variants.clearCheck();
-                            fillForm();
-                        }
-                    }
-                }
-        );
+        final Button next = findViewById(R.id.next);
+        final Button previous = findViewById(R.id.previous);
+        next.setOnClickListener(this::nextBtn);
+        previous.setOnClickListener(this::prevBtn);
         Log.d(TAG, "onCreate");
     }
 
@@ -161,5 +136,26 @@ public class ExamActivity extends AppCompatActivity {
                         id, question.getAnswer()),
                 Toast.LENGTH_SHORT)
                 .show();
+    }
+
+    private void nextBtn(View view) {
+        final RadioGroup variants = findViewById(R.id.variants);
+        if (variants.getCheckedRadioButtonId() != -1) {
+            userAnswers[position] = variants.getCheckedRadioButtonId();
+            showAnswer();
+            position++;
+            variants.clearCheck();
+            fillForm();
+        }
+    }
+
+    private void prevBtn(View view) {
+        final RadioGroup variants = findViewById(R.id.variants);
+        if (variants.getCheckedRadioButtonId() != -1) {
+            userAnswers[position] = variants.getCheckedRadioButtonId();
+            position--;
+            variants.clearCheck();
+            fillForm();
+        }
     }
 }
