@@ -6,12 +6,13 @@
     android:gravity="center">
 
     <TextView
-        style="@style/CustomText"
+        android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello" />
 
     <RadioGroup
+        android:id="@+id/variants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -48,16 +49,14 @@
         android:orientation="horizontal">
 
         <Button
-            style="@style/CustomButton"
-            android:id="@+id/button"
+            android:id="@+id/previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/back_button" />
 
         <Button
-            style="@style/CustomButton"
-            android:id="@+id/button2"
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
