@@ -7,7 +7,11 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import ru.job4j.exam.store.UserAnswersStore;
+
 public class ResultActivity extends AppCompatActivity {
+
+    private final UserAnswersStore answersStore = UserAnswersStore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +20,7 @@ public class ResultActivity extends AppCompatActivity {
         String questions = String.format(Locale.getDefault(),
                 "%s: %d",
                 getString(R.string.count_questions),
-                getIntent().getIntExtra(ExamActivity.STORE_SIZE, 0));
+                answersStore.size());
         TextView countQuestions = findViewById(R.id.count_questions);
         countQuestions.setText(questions);
         String answers = String.format(Locale.getDefault(),
