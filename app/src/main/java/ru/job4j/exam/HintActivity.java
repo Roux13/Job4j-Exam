@@ -8,18 +8,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Map;
+import ru.job4j.exam.store.HintStore;
 
 public class HintActivity extends AppCompatActivity {
 
-    private Map<Integer, String> answers = new HashMap<>();
-
-    public HintActivity() {
-        this.answers.put(0, "Hint 1");
-        this.answers.put(1, "Hint 2");
-        this.answers.put(2, "Hint 3");
-    }
+    private final HintStore store = HintStore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +22,7 @@ public class HintActivity extends AppCompatActivity {
         Toast.makeText(this, questionText, Toast.LENGTH_SHORT).show();
         TextView text = findViewById(R.id.hint);
         int question = getIntent().getIntExtra(ExamActivity.HINT_FOR, 0);
-        text.setText(this.answers.get(question));
+        text.setText(this.store.get(question));
         Button back = findViewById(R.id.back);
         back.setOnClickListener(this::backBtn);
 
