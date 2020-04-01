@@ -51,22 +51,33 @@
         <Button
             android:id="@+id/previous"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            style="@style/CustomButton"
             android:text="@string/back_button" />
 
         <Button
             android:id="@+id/hint"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            style="@style/CustomButton"
             android:text="@string/hint" />
 
         <Button
             android:id="@+id/next"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/custom_button"
+            android:textColor="@color/text_selector"
+            android:textAllCaps="false"
             android:text="@string/next_button" />
     </LinearLayout>
 </LinearLayout>

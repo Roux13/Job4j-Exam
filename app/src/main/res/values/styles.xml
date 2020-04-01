@@ -8,15 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="CustomText">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#008</item>
-    </style>
-    
     <style name="CustomButton">
-        <item name="android:buttonBarStyle">@style/Theme.AppCompat</item>
-        <item name="android:textColor">#ff0000</item>
-        <item name="android:textStyle">bold|italic</item>
+        <item name="android:layout_marginStart">3dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginEnd">3dp</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:background">@drawable/custom_button</item>
+        <item name="android:textColor">@color/text_selector</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 </resources>
