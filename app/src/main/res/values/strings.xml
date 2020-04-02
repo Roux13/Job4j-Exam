@@ -31,6 +31,7 @@
     <string name="count_questions">Количество вопросов</string>
     <string name="correct_answers">Правильных ответов</string>
     <string name="message_text">Message text</string>
+    <string name="result_button">Результаты</string>
     <string-array name="data_arrays">
         <item>Выберите дату</item>
         <item>01.03.20</item>
@@ -40,6 +41,4 @@
         <item>06.03.20</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -37,9 +37,17 @@ public class ResultFragment extends Fragment {
         String answers = String.format(Locale.getDefault(),
                 "%s: %d",
                 getString(R.string.correct_answers),
-                getActivity().getIntent().getIntExtra(ExamFragment.CORRECT, 0));
+                getArguments().getInt(ExamFragment.CORRECT, 0));
         TextView correctAnswers = view.findViewById(R.id.correct_answers);
         correctAnswers.setText(answers);
         return view;
+    }
+
+    public static ResultFragment instanceOf(int correctAnswer) {
+        Bundle args = new Bundle();
+        args.putInt(ExamFragment.CORRECT, correctAnswer);
+        ResultFragment fragment = new ResultFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 }

@@ -69,15 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:layout_marginStart="3dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="@drawable/custom_button"
-            android:textColor="@color/text_selector"
-            android:textAllCaps="false"
+            style="@style/CustomButton"
             android:text="@string/next_button" />
     </LinearLayout>
 </LinearLayout>

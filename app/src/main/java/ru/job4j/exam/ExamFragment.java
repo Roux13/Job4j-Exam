@@ -40,7 +40,6 @@ public class ExamFragment extends Fragment {
     public static final String CORRECT = "correct_answers";
 
     public ExamFragment() {
-        // Required empty public constructor
     }
 
 
@@ -52,13 +51,14 @@ public class ExamFragment extends Fragment {
             this.position = savedInstanceState.getInt(POSITION_KEY);
             this.correctAnswers = savedInstanceState.getInt(CORRECT);
         }
+
         this.fillForm();
-        final Button next = view.findViewById(R.id.next);
-        final Button hint = view.findViewById(R.id.hint);
-        final Button previous = view.findViewById(R.id.previous);
-        next.setOnClickListener(this::nextBtn);
-        hint.setOnClickListener(this::hintBtn);
-        previous.setOnClickListener(this::prevBtn);
+        final Button nextButton = view.findViewById(R.id.next);
+        final Button hintButton = view.findViewById(R.id.hint);
+        final Button previousButton = view.findViewById(R.id.previous);
+        nextButton.setOnClickListener(this::nextBtn);
+        hintButton.setOnClickListener(this::hintBtn);
+        previousButton.setOnClickListener(this::prevBtn);
         return view;
     }
 
@@ -79,16 +79,23 @@ public class ExamFragment extends Fragment {
 
     private void fillForm() {
         this.view.findViewById(R.id.previous).setEnabled(position != 0);
-        final TextView text = this.view.findViewById(R.id.question);
+        Button nextButton = this.view.findViewById(R.id.next);
+        if (position == store.size() - 1) {
+
+            nextButton.setText(R.string.result_button);
+        } else {
+            nextButton.setText(R.string.next_button);
+        }
+        final TextView questionTextView = this.view.findViewById(R.id.question);
         Question question = this.store.get(this.position);
-        text.setText(question.getText());
-        final RadioGroup variants = this.view.findViewById(R.id.variants);
-        for (int index = 0; index < variants.getChildCount(); index++) {
-            RadioButton button = (RadioButton) variants.getChildAt(index);
+        questionTextView.setText(question.getText());
+        final RadioGroup variantsRadioGroup = this.view.findViewById(R.id.variants);
+        for (int index = 0; index < variantsRadioGroup.getChildCount(); index++) {
+            RadioButton radioButton = (RadioButton) variantsRadioGroup.getChildAt(index);
             Option option = question.getOptions().get(index);
-            button.setId(option.getId());
-            button.setText(option.getText());
-            button.setChecked(answersStore.get(position) == button.getId());
+            radioButton.setId(option.getId());
+            radioButton.setText(option.getText());
+            radioButton.setChecked(answersStore.get(position) == radioButton.getId());
         }
     }
 

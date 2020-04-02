@@ -28,10 +28,10 @@ public class HintFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hint, container, false);
-        String questionText = getActivity().getIntent().getStringExtra(ExamFragment.QUESTION_TEXT);
+        String questionText = getArguments().getString(ExamFragment.QUESTION_TEXT);
         Toast.makeText(getContext(), questionText, Toast.LENGTH_SHORT).show();
         TextView text = view.findViewById(R.id.hint);
-        int question = getActivity().getIntent().getIntExtra(ExamFragment.HINT_FOR, 0);
+        int question = getArguments().getInt(ExamFragment.HINT_FOR, 0);
         text.setText(this.store.get(question));
         Button back = view.findViewById(R.id.back);
         back.setOnClickListener(this::backBtn);
@@ -40,5 +40,14 @@ public class HintFragment extends Fragment {
 
     private void backBtn(View view) {
         getActivity().onBackPressed();
+    }
+
+    public static Fragment instanceOf(int index, String questionText) {
+        HintFragment fragment = new HintFragment();
+        Bundle args = new Bundle();
+        args.putString(ExamFragment.QUESTION_TEXT, questionText);
+        args.putInt(ExamFragment.HINT_FOR, index);
+        fragment.setArguments(args);
+        return fragment;
     }
 }
