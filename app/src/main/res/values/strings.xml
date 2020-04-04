@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Job4j Exam</string>
-    <string name="hello">Hello, Yuriy Nekhodov!</string>
+    <string name="hello" translatable="false">Hello, Yuriy Nekhodov!</string>
     <string name="radio_button1">Переключатель1</string>
     <string name="radio_button2">Переключатель2</string>
     <string name="radio_button3">Переключатель3</string>
@@ -40,5 +40,9 @@
         <item>05.03.20</item>
         <item>06.03.20</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="return_to_exam_list" translatable="false">To exam list</string>
 
 </resources>

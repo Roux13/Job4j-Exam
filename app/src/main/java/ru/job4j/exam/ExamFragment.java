@@ -56,9 +56,11 @@ public class ExamFragment extends Fragment {
         final Button nextButton = view.findViewById(R.id.next);
         final Button hintButton = view.findViewById(R.id.hint);
         final Button previousButton = view.findViewById(R.id.previous);
+        final Button toExamListButton = view.findViewById(R.id.toExamList);
         nextButton.setOnClickListener(this::nextBtn);
         hintButton.setOnClickListener(this::hintBtn);
         previousButton.setOnClickListener(this::prevBtn);
+        toExamListButton.setOnClickListener(this::toExamListBtn);
         return view;
     }
 
@@ -151,6 +153,11 @@ public class ExamFragment extends Fragment {
             variants.clearCheck();
             fillForm();
         }
+    }
+
+    private void toExamListBtn(View view) {
+        Intent intent = new Intent(getContext(), ExamsActivity.class);
+        startActivity(intent);
     }
 
     private int countCorrectAnswers() {
