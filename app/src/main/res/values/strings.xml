@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">Job4j Exam</string>
-    <string name="hello">"Привет, Юрий Неходов!"</string>
+    <string name="hello">Hello, Yuriy Nekhodov!</string>
     <string name="radio_button1">Переключатель1</string>
     <string name="radio_button2">Переключатель2</string>
     <string name="radio_button3">Переключатель3</string>
     <string name="radio_button4">Переключатель4</string>
-    <string name="next_button">"Далее"</string>
-    <string name="back_button">Назад</string>
+    <string name="next_button" translatable="false">Next</string>
+    <string name="back_button" translatable="false">Back</string>
 
     <string name="domain_prompt">Выберите область</string>
     <string name="exp_date">Дата проведения испытания</string>
@@ -26,12 +26,12 @@
     <string name="atmospheric_pressure">Атмосферное давление</string>
     <string name="report_number">Номер отчёта</string>
     <string name="report_date">Дата отчета</string>
-    <string name="hint">Подсказка</string>
-    <string name="test_result">Результаты теста</string>
-    <string name="count_questions">Количество вопросов</string>
-    <string name="correct_answers">Правильных ответов</string>
+    <string name="hint" translatable="false">Hint</string>
+    <string name="test_result" translatable="false">Test results</string>
+    <string name="count_questions" translatable="false">Count of the questions</string>
+    <string name="correct_answers" translatable="false">Correct answers</string>
     <string name="message_text">Message text</string>
-    <string name="result_button">Результаты</string>
+    <string name="result_button" translatable="false">Results</string>
     <string-array name="data_arrays">
         <item>Выберите дату</item>
         <item>01.03.20</item>

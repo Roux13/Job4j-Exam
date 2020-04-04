@@ -81,7 +81,6 @@ public class ExamFragment extends Fragment {
         this.view.findViewById(R.id.previous).setEnabled(position != 0);
         Button nextButton = this.view.findViewById(R.id.next);
         if (position == store.size() - 1) {
-
             nextButton.setText(R.string.result_button);
         } else {
             nextButton.setText(R.string.next_button);
@@ -128,6 +127,11 @@ public class ExamFragment extends Fragment {
                 variants.clearCheck();
                 fillForm();
             }
+        } else {
+            Toast.makeText(getContext(),
+                    "Please, select variant",
+                    Toast.LENGTH_SHORT)
+                    .show();
         }
     }
 
