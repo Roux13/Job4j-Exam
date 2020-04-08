@@ -2,7 +2,7 @@
 
 It is a Android application for testing for a knowledge of the Java programming language.
 
-The app has one screen now.
+The app has three screens.
 
 ![Image1 of Job4jExamFirstScreen](/images/Job4jExamScreen.png)
 ![Image2 of Job4jExamFirstScreen](/images/Job4jHintScreen.png)
