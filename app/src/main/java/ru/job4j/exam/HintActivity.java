@@ -6,7 +6,7 @@ public class HintActivity extends BaseActivity {
 
     @Override
     public Fragment loadFrg() {
-        return HintFragment.instanceOf(getIntent().getIntExtra(ExamFragment.HINT_FOR, 0),
+        return HintFragment.getInstance(getIntent().getIntExtra(ExamFragment.HINT_FOR, 0),
                 getIntent().getStringExtra(ExamFragment.QUESTION_TEXT));
     }
 }

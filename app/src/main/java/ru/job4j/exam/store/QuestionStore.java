@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ru.job4j.exam.Option;
-import ru.job4j.exam.Question;
+import ru.job4j.exam.models.Option;
+import ru.job4j.exam.models.Question;
 
 public final class QuestionStore {
 

@@ -18,7 +18,6 @@
         </activity>
         <activity android:name=".ResultActivity" />
         <activity android:name=".HintActivity" />
-        <activity android:name=".GreetActivity" />
         <activity android:name=".ExamActivity">
 
         </activity>

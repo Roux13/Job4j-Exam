@@ -42,7 +42,7 @@ public class HintFragment extends Fragment {
         getActivity().onBackPressed();
     }
 
-    public static Fragment instanceOf(int index, String questionText) {
+    public static Fragment getInstance(int index, String questionText) {
         HintFragment fragment = new HintFragment();
         Bundle args = new Bundle();
         args.putString(ExamFragment.QUESTION_TEXT, questionText);

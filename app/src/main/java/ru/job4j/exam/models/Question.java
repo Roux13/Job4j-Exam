@@ -1,6 +1,8 @@
-package ru.job4j.exam;
+package ru.job4j.exam.models;
 
 import java.util.List;
+
+import ru.job4j.exam.models.Option;
 
 public class Question {
 
