@@ -12,12 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.job4j.exam.models.Exam;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +46,7 @@ public class ExamsFragment extends Fragment {
     private void updateUI() {
         List<Exam> exams = new ArrayList<>();
         for (int index = 0; index != 100; index++) {
-            exams.add(new Exam(index, String.format("Exam %s", index), System.currentTimeMillis(), index));
+            exams.add(new Exam(index, String.format("Java %s", index), System.currentTimeMillis(), index));
         }
         this.recycler.setAdapter(new ExamAdapter(exams));
     }
@@ -79,11 +80,13 @@ public class ExamsFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ExamHolder holder, int position) {
             final Exam exam = exams.get(position);
+            holder.itemView.setBackgroundColor(getColor(position));
+            holder.itemView.setOnClickListener(this::onClick);
             TextView infoTextView = holder.view.findViewById(R.id.info);
             TextView resultTextView = holder.view.findViewById(R.id.result);
             TextView dateTextView = holder.view.findViewById(R.id.date);
+
             infoTextView.setText(exam.getName());
-            infoTextView.setOnClickListener(this::onClick);
             resultTextView.setText(String.valueOf(exam.getResult()));
             DateFormat dateFormat = new SimpleDateFormat("dd.MM.yy hh:mm");
             dateTextView.setText(dateFormat.format(exam.getTime()));
@@ -96,6 +99,17 @@ public class ExamsFragment extends Fragment {
 
         public void onClick(View view) {
             startActivity(new Intent(getContext(), ExamActivity.class));
+        }
+
+        private int getColor(int position) {
+            int color = 0;
+            if (position % 2 == 0) {
+                color = getResources().getColor(R.color.grey_item);
+            }
+            if (position % 2 != 0) {
+                color = getResources().getColor(R.color.white);
+            }
+            return color;
         }
     }
 

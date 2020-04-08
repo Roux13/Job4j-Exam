@@ -1,9 +1,11 @@
 package ru.job4j.exam;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -17,14 +19,17 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
+import ru.job4j.exam.models.Option;
+import ru.job4j.exam.models.Question;
 import ru.job4j.exam.store.QuestionStore;
 import ru.job4j.exam.store.UserAnswersStore;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ExamFragment extends Fragment {
+
+    private static final String POSITION_KEY = "position";
+    public static final String HINT_FOR = "hint_for";
+    public static final String QUESTION_TEXT = "question_text";
+    public static final String CORRECT = "correct_answers";
 
     private final QuestionStore store = QuestionStore.getInstance();
     private final UserAnswersStore answersStore = UserAnswersStore.getInstance();
@@ -34,14 +39,10 @@ public class ExamFragment extends Fragment {
     private int position = 0;
     private int correctAnswers = 0;
 
-    private static final String POSITION_KEY = "position";
-    public static final String HINT_FOR = "hint_for";
-    public static final String QUESTION_TEXT = "question_text";
-    public static final String CORRECT = "correct_answers";
+    private HintButtonClickListener hintButtonClickListener;
 
     public ExamFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -138,10 +139,10 @@ public class ExamFragment extends Fragment {
     }
 
     private void hintBtn(View view) {
-        Intent intent = new Intent(getContext(), HintActivity.class);
-        intent.putExtra(HINT_FOR, position);
-        intent.putExtra(QUESTION_TEXT, this.store.get(position).getText());
-        startActivity(intent);
+        Bundle args = new Bundle();
+        args.putInt(HINT_FOR, position);
+        args.putString(QUESTION_TEXT, store.get(position).getText());
+        hintButtonClickListener.hintButtonClicked(args);
     }
 
     private void prevBtn(View view) {
@@ -168,6 +169,21 @@ public class ExamFragment extends Fragment {
             }
         }
         return count;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            this.hintButtonClickListener = (HintButtonClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(String.format("%s must implement HintButtonClickListener",
+                    context.toString()));
+        }
+    }
+
+    public interface HintButtonClickListener {
+        void hintButtonClicked(Bundle examArgs);
     }
 
 }
