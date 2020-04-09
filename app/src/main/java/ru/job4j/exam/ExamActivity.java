@@ -39,4 +39,5 @@ public class ExamActivity extends BaseActivity implements ConfirmHintDialogFragm
         DialogFragment dialog = new ConfirmHintDialogFragment();
         dialog.show(getSupportFragmentManager(), "dialog_tag");
     }
+
 }

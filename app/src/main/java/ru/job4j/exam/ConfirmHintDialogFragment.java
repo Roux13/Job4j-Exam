@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,8 +18,10 @@ public class ConfirmHintDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         Dialog dialog = new AlertDialog.Builder(getActivity())
-                .setMessage("Show hint?")
+//                .setMessage("Show hint?")
+                .setView(inflater.inflate(R.layout.dialog, null))
                 .setPositiveButton(android.R.string.ok, this::onPositiveClick)
                 .setNegativeButton(android.R.string.cancel, this::onNegativeClick)
                 .create();

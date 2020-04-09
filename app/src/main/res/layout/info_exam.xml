@@ -33,9 +33,9 @@
         android:id="@+id/result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:text="result"
         app:layout_constraintBottom_toBottomOf="@+id/info"
         app:layout_constraintEnd_toStartOf="@+id/date"
-        app:layout_constraintStart_toEndOf="@+id/info"
         app:layout_constraintTop_toTopOf="@+id/info" />
 </androidx.constraintlayout.widget.ConstraintLayout>

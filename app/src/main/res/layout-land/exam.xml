@@ -78,13 +78,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/toExamList"
-            style="@style/CustomButton"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="@string/return_to_exam_list" />
     </LinearLayout>
 
 </LinearLayout>

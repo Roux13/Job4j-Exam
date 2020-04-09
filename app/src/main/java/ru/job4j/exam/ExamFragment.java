@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,6 +48,12 @@ public class ExamFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.exam, container, false);
@@ -57,11 +66,9 @@ public class ExamFragment extends Fragment {
         final Button nextButton = view.findViewById(R.id.next);
         final Button hintButton = view.findViewById(R.id.hint);
         final Button previousButton = view.findViewById(R.id.previous);
-        final Button toExamListButton = view.findViewById(R.id.toExamList);
         nextButton.setOnClickListener(this::nextBtn);
         hintButton.setOnClickListener(this::hintBtn);
         previousButton.setOnClickListener(this::prevBtn);
-        toExamListButton.setOnClickListener(this::toExamListBtn);
         return view;
     }
 
@@ -156,11 +163,6 @@ public class ExamFragment extends Fragment {
         }
     }
 
-    private void toExamListBtn(View view) {
-        Intent intent = new Intent(getContext(), ExamsActivity.class);
-        startActivity(intent);
-    }
-
     private int countCorrectAnswers() {
         int count = 0;
         for (int index = 0; index < answersStore.size(); index++) {
@@ -186,4 +188,19 @@ public class ExamFragment extends Fragment {
         void hintButtonClicked(Bundle examArgs);
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.exam, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.to_exams) {
+            Intent intent = new Intent(getContext(), ExamsActivity.class);
+            startActivity(intent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
 }

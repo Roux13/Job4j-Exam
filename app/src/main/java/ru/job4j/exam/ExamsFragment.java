@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,18 +24,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.job4j.exam.models.Exam;
+import ru.job4j.exam.store.ExamStore;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ExamsFragment extends Fragment {
+public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFragment.DeleteDialogConfirmListener {
+
+    private final ExamStore store = ExamStore.getInstance();
 
     private RecyclerView recycler;
 
     public ExamsFragment() {
-        // Required empty public constructor
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,11 +54,7 @@ public class ExamsFragment extends Fragment {
     }
 
     private void updateUI() {
-        List<Exam> exams = new ArrayList<>();
-        for (int index = 0; index != 100; index++) {
-            exams.add(new Exam(index, String.format("Java %s", index), System.currentTimeMillis(), index));
-        }
-        this.recycler.setAdapter(new ExamAdapter(exams));
+        this.recycler.setAdapter(new ExamAdapter(store.getList()));
     }
 
     public class ExamHolder extends RecyclerView.ViewHolder {
@@ -59,8 +65,8 @@ public class ExamsFragment extends Fragment {
             super(itemView);
             this.view = itemView;
         }
-    }
 
+    }
     public class ExamAdapter extends RecyclerView.Adapter<ExamHolder> {
 
         private final List<Exam> exams;
@@ -111,6 +117,32 @@ public class ExamsFragment extends Fragment {
             }
             return color;
         }
+
+    }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.exams, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_item:
+                store.add(new Exam(store.size(), "Added Exam", System.currentTimeMillis(), store.size()));
+                updateUI();
+                return true;
+            case R.id.delete_item:
+                DialogFragment dialog = new ConfirmDeletingDialogFragment();
+                dialog.show(getFragmentManager(), "delete_dialog_tag");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void delete() {
+        store.deleteAll();
+        updateUI();
+    }
 }

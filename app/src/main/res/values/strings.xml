@@ -41,8 +41,10 @@
         <item>06.03.20</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="return_to_exam_list" translatable="false">To exam list</string>
+    <string name="dialog_question">Show hint?</string>
+    <string name="add_item">Add</string>
+    <string name="delete_item">Delete</string>
 
 </resources>
