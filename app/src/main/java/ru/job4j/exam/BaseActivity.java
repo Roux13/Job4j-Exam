@@ -12,12 +12,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.host_frg);
+        setContentView(R.layout.host);
 
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentById(R.id.content) == null) {
+        if (fm.findFragmentById(R.id.host) == null) {
             fm.beginTransaction()
-                    .add(R.id.content, loadFrg())
+                    .add(R.id.host, loadFrg())
                     .commit();
         }
     }

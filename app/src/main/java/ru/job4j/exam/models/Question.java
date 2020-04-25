@@ -2,20 +2,18 @@ package ru.job4j.exam.models;
 
 import java.util.List;
 
-import ru.job4j.exam.models.Option;
-
 public class Question {
 
     private int id;
     private String text;
     private List<Option> options;
-    private int Answer;
+    private int answer;
 
     public Question(int id, String text, List<Option> options, int answer) {
         this.id = id;
         this.text = text;
         this.options = options;
-        Answer = answer;
+        this.answer = answer;
     }
 
     public String getText() {
@@ -27,6 +25,6 @@ public class Question {
     }
 
     public int getAnswer() {
-        return Answer;
+        return answer;
     }
 }

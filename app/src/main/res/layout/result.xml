@@ -9,7 +9,8 @@
         android:id="@+id/test_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/test_result" />
+        android:text="@string/test_result"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/count_questions"

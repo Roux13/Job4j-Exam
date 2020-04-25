@@ -42,7 +42,7 @@ public class ConfirmDeletingDialogFragment extends DialogFragment {
         super.onAttach(context);
         try {
             this.listener = (DeleteDialogConfirmListener) getFragmentManager()
-                    .findFragmentById(R.id.content);
+                    .findFragmentById(R.id.host);
         } catch (ClassCastException e) {
             throw new ClassCastException(
                     String.format(
