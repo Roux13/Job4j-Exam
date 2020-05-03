@@ -1,4 +1,4 @@
-package ru.job4j.exam;
+package ru.job4j.exam.other;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import ru.job4j.exam.R;
 
 public class DateTimeActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener,
         TimePickerFragment.TimePickerFragmentListener {

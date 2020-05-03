@@ -18,7 +18,18 @@
         <item name="android:layout_marginBottom">3dp</item>
         <item name="android:background">@drawable/custom_button</item>
         <item name="android:textColor">@color/text_selector</item>
+        <item name="height">30dp</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="auto_scroll">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+<!--        <item name="android:maxLength">28</item>-->
     </style>
 
 </resources>

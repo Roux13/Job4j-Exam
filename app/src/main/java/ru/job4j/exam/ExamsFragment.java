@@ -1,15 +1,12 @@
 package ru.job4j.exam;
 
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,23 +21,23 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import ru.job4j.exam.models.Exam;
-import ru.job4j.exam.store.ExamBaseHelper;
-import ru.job4j.exam.store.ExamDbSchema;
+import ru.job4j.exam.dialogs.ConfirmDeletingDialogFragment;
+import ru.job4j.exam.entitties.Exam;
+import ru.job4j.exam.global.ExamsFragmentListener;
 
 public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFragment.DeleteDialogConfirmListener {
 
-//    private final ExamStore store = ExamStore.getInstance();
+    public static final String SENT_EXAM_KEY = "ru_job4_exam_key";
+
+    private ExamsFragmentListener listener;
 
     private RecyclerView recycler;
-    private SQLiteDatabase store;
+    private ExamAdapter adapter;
 
     public ExamsFragment() {
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,37 +48,22 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.exams, container, false);
-        recycler = view.findViewById(R.id.exams);
+        View view = inflater.inflate(R.layout.fragment_exams, container, false);
+        recycler = view.findViewById(R.id.fragment_exams);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        store = new ExamBaseHelper(getContext()).getWritableDatabase();
+        adapter = new ExamAdapter();
+        listener.getAllExams().observe(getActivity(), exams -> adapter.setExams(exams));
+
         updateUI();
 
         return view;
     }
 
     private void updateUI() {
-        List<Exam> exams = new ArrayList<>();
-        Cursor cursor = this.store.query(
-                ExamDbSchema.ExamTable.TABLE_NAME,
-                null, null, null,
-                null, null, null
-        );
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            exams.add(new Exam(
-                    cursor.getInt(cursor.getColumnIndex("id")),
-                    cursor.getString(cursor.getColumnIndex("title")),
-                    System.currentTimeMillis(),
-                    100
-            ));
-            cursor.moveToNext();
-        }
-        cursor.close();
-        this.recycler.setAdapter(new ExamAdapter(exams));
+        this.recycler.setAdapter(adapter);
     }
 
-    public class ExamHolder extends RecyclerView.ViewHolder {
+    public static class ExamHolder extends RecyclerView.ViewHolder {
 
         private View view;
 
@@ -91,12 +73,12 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
         }
 
     }
+
     public class ExamAdapter extends RecyclerView.Adapter<ExamHolder> {
 
-        private final List<Exam> exams;
+        private List<Exam> exams;
 
-        public ExamAdapter(List<Exam> exams) {
-            this.exams = exams;
+        public ExamAdapter() {
         }
 
         @NonNull
@@ -111,48 +93,47 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
         public void onBindViewHolder(@NonNull ExamHolder holder, int position) {
             final Exam exam = exams.get(position);
             holder.itemView.setBackgroundColor(getColor(position));
-            holder.itemView.setOnClickListener(this::onClick);
+            holder.itemView.setOnClickListener(this::onItemClick);
             final TextView infoTextView = holder.view.findViewById(R.id.info);
             final TextView resultTextView = holder.view.findViewById(R.id.result);
             final TextView dateTextView = holder.view.findViewById(R.id.date);
             final ImageView editExamImgV = holder.view.findViewById(R.id.edit_exam_btn);
             final ImageView deleteExamImgV = holder.view.findViewById(R.id.delete_exam_btn);
 
-            editExamImgV.setOnClickListener(btn -> {
-                Bundle args = new Bundle();
-                args.putInt("id", exam.getId());
-                args.putString("name", exam.getName());
-                Fragment examUpdateFragment = new UpdateExamFragment();
-                examUpdateFragment.setArguments(args);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.host, examUpdateFragment)
-                        .addToBackStack("exam_list")
-                        .commit();
-            });
+            editExamImgV.setOnClickListener(btn -> listener.callUpdateExamFragment(exam));
 
             deleteExamImgV.setOnClickListener(btn -> {
-                store.delete(ExamDbSchema.ExamTable.TABLE_NAME, "id = ?", new String[]{
-                        String.valueOf(exam.getId())
-                });
-                exams.remove(exam);
+                listener.deleteExam(exam);
                 notifyItemRemoved(position);
             });
 
 
-            infoTextView.setText(exam.getName());
+            infoTextView.setText(exam.getTitle());
             resultTextView.setText(String.valueOf(exam.getResult()));
             DateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
-            dateTextView.setText(dateFormat.format(exam.getTime()));
+            if (exam.getTime() > 0) {
+                dateTextView.setText(dateFormat.format(exam.getTime()));
+            } else {
+                dateTextView.setText(R.string.not_started);
+            }
+        }
+
+        public void setExams(List<Exam> exams) {
+            this.exams = exams;
+            notifyDataSetChanged();
         }
 
         @Override
         public int getItemCount() {
-            return exams.size();
+            if (exams != null) {
+                return exams.size();
+            } else {
+                return 0;
+            }
         }
 
-        public void onClick(View view) {
-            startActivity(new Intent(getContext(), ExamActivity.class));
+        private void onItemClick(View view) {
+            startActivity(new Intent(getContext(), ExamInfoActivity.class));
         }
 
         private int getColor(int position) {
@@ -167,6 +148,7 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
         }
 
     }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.exams, menu);
@@ -176,16 +158,12 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_item:
-                FragmentManager fm = getFragmentManager();
-                fm.beginTransaction()
-                        .replace(R.id.host, new AddExamFragment())
-                        .addToBackStack("exam_list")
-                        .commit();
-                updateUI();
+                listener.callAddExamFragment();
+                adapter.notifyDataSetChanged();
                 return true;
             case R.id.delete_item:
-                DialogFragment dialog = new ConfirmDeletingDialogFragment();
-                dialog.show(getFragmentManager(), "delete_dialog_tag");
+                listener.callConfirmDeletingDialog();
+                adapter.notifyDataSetChanged();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -194,7 +172,26 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
 
     @Override
     public void delete() {
-        store.delete(ExamDbSchema.ExamTable.TABLE_NAME, null, null);
+        listener.deleteAllExams();
         updateUI();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            this.listener = (ExamsFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(String.format(
+                    "Class %s must implement %s interface",
+                    context.getClass().getSimpleName(),
+                    listener.getClass().getSimpleName()));
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.listener = null;
     }
 }

@@ -7,6 +7,9 @@ import android.widget.Toast;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import ru.job4j.exam.dialogs.ConfirmHintDialogFragment;
+import ru.job4j.exam.global.BaseActivity;
+
 import static ru.job4j.exam.ExamFragment.HINT_FOR;
 import static ru.job4j.exam.ExamFragment.QUESTION_TEXT;
 

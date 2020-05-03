@@ -1,11 +1,10 @@
 package ru.job4j.exam;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import ru.job4j.exam.store.ExamBaseHelper;
-import ru.job4j.exam.store.ExamDbSchema;
+import ru.job4j.exam.entitties.Exam;
+import ru.job4j.exam.global.ExamsFragmentListener;
 
 public class AddExamFragment extends Fragment {
 
-    private SQLiteDatabase store;
+    private ExamsFragmentListener listener;
 
-    private EditText examNameEditText;
+    private EditText examTitleEdit;
 
     public AddExamFragment() {
     }
@@ -29,22 +28,36 @@ public class AddExamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.exam_add, container, false);
-        store = new ExamBaseHelper(getContext()).getWritableDatabase();
-        examNameEditText = view.findViewById(R.id.exam_name);
+        View view = inflater.inflate(R.layout.fragment_exam_add, container, false);
+
+        examTitleEdit = view.findViewById(R.id.exam_title);
         Button saveBtn = view.findViewById(R.id.save);
         saveBtn.setOnClickListener(this::onSaveClick);
         return view;
     }
 
     public void onSaveClick(View view) {
-        ContentValues values = new ContentValues();
-        values.put(ExamDbSchema.ExamTable.COLUMN_TITLE, examNameEditText.getText().toString());
-        store.insert(ExamDbSchema.ExamTable.TABLE_NAME, null, values);
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.host, new ExamsFragment())
-                .addToBackStack(null)
-                .commit();
+        Exam exam = new Exam(examTitleEdit.getText().toString());
+        listener.addExam(exam);
+        listener.callExamsFragment();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            this.listener = (ExamsFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(String.format(
+                    "Class %s must implement %s interface",
+                    context.getClass().getSimpleName(),
+                    listener.getClass().getSimpleName()));
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.listener = null;
     }
 }

@@ -4,10 +4,10 @@ import androidx.fragment.app.Fragment;
 
 import ru.job4j.exam.global.BaseActivity;
 
-public class ResultActivity extends BaseActivity {
+public class ExamInfoActivity extends BaseActivity {
 
     @Override
     public Fragment loadFrg() {
-        return ResultFragment.instanceOf(getIntent().getIntExtra(ExamFragment.CORRECT, 0));
+        return new ExamInfoFragment();
     }
 }

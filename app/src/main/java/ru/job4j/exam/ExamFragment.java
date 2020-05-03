@@ -22,8 +22,8 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-import ru.job4j.exam.models.Option;
-import ru.job4j.exam.models.Question;
+import ru.job4j.exam.entitties.Answer;
+import ru.job4j.exam.entitties.Question;
 import ru.job4j.exam.store.QuestionStore;
 import ru.job4j.exam.store.UserAnswersStore;
 
@@ -56,7 +56,7 @@ public class ExamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.exam, container, false);
+        view = inflater.inflate(R.layout.fragment_exam, container, false);
         if (savedInstanceState != null) {
             this.position = savedInstanceState.getInt(POSITION_KEY);
             this.correctAnswers = savedInstanceState.getInt(CORRECT);
@@ -101,9 +101,9 @@ public class ExamFragment extends Fragment {
         final RadioGroup variantsRadioGroup = this.view.findViewById(R.id.variants);
         for (int index = 0; index < variantsRadioGroup.getChildCount(); index++) {
             RadioButton radioButton = (RadioButton) variantsRadioGroup.getChildAt(index);
-            Option option = question.getOptions().get(index);
-            radioButton.setId(option.getId());
-            radioButton.setText(option.getText());
+            Answer answer = question.getAnswers().get(index);
+            radioButton.setId(answer.getId());
+            radioButton.setText(answer.getText());
             radioButton.setChecked(answersStore.get(position) == radioButton.getId());
         }
     }

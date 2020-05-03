@@ -27,7 +27,7 @@ public class HintFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.hint, container, false);
+        View view = inflater.inflate(R.layout.fragment_hint, container, false);
         String questionText = getArguments().getString(ExamFragment.QUESTION_TEXT);
         Toast.makeText(getContext(), questionText, Toast.LENGTH_SHORT).show();
         TextView text = view.findViewById(R.id.hint);

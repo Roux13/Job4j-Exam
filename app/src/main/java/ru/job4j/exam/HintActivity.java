@@ -2,6 +2,8 @@ package ru.job4j.exam;
 
 import androidx.fragment.app.Fragment;
 
+import ru.job4j.exam.global.BaseActivity;
+
 public class HintActivity extends BaseActivity {
 
     @Override

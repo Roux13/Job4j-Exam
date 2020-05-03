@@ -1,4 +1,4 @@
-package ru.job4j.exam;
+package ru.job4j.exam.other;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

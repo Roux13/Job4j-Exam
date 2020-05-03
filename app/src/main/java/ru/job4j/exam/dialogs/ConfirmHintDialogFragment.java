@@ -1,4 +1,4 @@
-package ru.job4j.exam;
+package ru.job4j.exam.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import ru.job4j.exam.R;
 
 public class ConfirmHintDialogFragment extends DialogFragment {
 

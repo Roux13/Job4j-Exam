@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DateTimeActivity">
+        <activity android:name=".other.DateTimeActivity">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -26,6 +26,7 @@
         <activity android:name=".ResultActivity" />
         <activity android:name=".HintActivity" />
         <activity android:name=".ExamActivity"></activity>
+        <activity android:name=".ExamInfoActivity"/>
     </application>
 
 </manifest>
