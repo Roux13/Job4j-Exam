@@ -1,5 +1,6 @@
-package ru.job4j.exam;
+package ru.job4j.exam.exams;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,21 +12,22 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
+import ru.job4j.exam.info.InfoActivity;
+import ru.job4j.exam.R;
 import ru.job4j.exam.dialogs.ConfirmDeletingDialogFragment;
 import ru.job4j.exam.entitties.Exam;
 import ru.job4j.exam.global.BaseActivity;
-import ru.job4j.exam.global.ExamContract;
-import ru.job4j.exam.global.ExamsFragmentListener;
+import ru.job4j.exam.utils.StringBundleKeys;
 
 public class ExamsActivity extends BaseActivity implements ExamsFragmentListener {
 
-    private ExamContract viewModel;
+    private ExamsViewModel viewModel;
     private FragmentManager fm = getSupportFragmentManager();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(ExamViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ExamsViewModel.class);
     }
 
     @Override
@@ -65,14 +67,19 @@ public class ExamsActivity extends BaseActivity implements ExamsFragmentListener
 
     @Override
     public void callAddExamFragment() {
-        switchFragments(new AddExamFragment());
+        switchFragments(new AddFragment());
+    }
+
+    @Override
+    public int getNumberOfQuestions(Exam exam) {
+        return viewModel.getAllQuestionsByExam(exam).size();
     }
 
     @Override
     public void callUpdateExamFragment(Exam exam) {
         Bundle args = new Bundle();
-        args.putSerializable(ExamsFragment.SENT_EXAM_KEY, exam);
-        Fragment fragment = new UpdateExamFragment();
+        args.putSerializable(StringBundleKeys.SENT_EXAM_KEY, exam);
+        Fragment fragment = new UpdateFragment();
         fragment.setArguments(args);
         switchFragments(fragment);
     }
@@ -88,5 +95,12 @@ public class ExamsActivity extends BaseActivity implements ExamsFragmentListener
                 .addToBackStack(fragment.getClass().getName())
                 .replace(R.id.activity_host, fragment)
                 .commit();
+    }
+
+    @Override
+    public void callExamInfoActivity(Exam exam) {
+        Intent intent = new Intent(this, InfoActivity.class);
+        intent.putExtra(StringBundleKeys.SENT_EXAM_KEY, exam);
+        startActivity(intent);
     }
 }

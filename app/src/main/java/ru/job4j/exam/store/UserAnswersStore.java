@@ -1,17 +1,20 @@
 package ru.job4j.exam.store;
 
-public final class UserAnswersStore {
+import java.io.Serializable;
 
-    private final int[] userAnswers = new int[3];
+public final class UserAnswersStore implements Serializable {
 
-    private static final UserAnswersStore INST = new UserAnswersStore();
+    private int[] userAnswers;
 
-    private UserAnswersStore() {
+//    private static final UserAnswersStore INST = new UserAnswersStore();
+
+    public UserAnswersStore(int size) {
+        userAnswers = new int[size];
     }
 
-    public static UserAnswersStore getInstance() {
-        return INST;
-    }
+//    public static UserAnswersStore getInstance() {
+//        return INST;
+//    }
 
     public void set(int index, int answer) {
         userAnswers[index] = answer;
@@ -24,4 +27,10 @@ public final class UserAnswersStore {
     public int size() {
         return userAnswers.length;
     }
+
+//    public void clear() {
+//        for (int answer : userAnswers) {
+//            answer = 0;
+//        }
+//    }
 }

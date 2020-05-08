@@ -7,43 +7,45 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/result_title_tv"
+        android:id="@+id/exam_info_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Your results:"
+        android:layout_marginTop="8dp"
+        android:text="Exam name sample"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/result_description_tv"
+        android:id="@+id/exam_info_description_tv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/default_custom_text_view"
         android:ems="10"
         android:gravity="top"
         android:padding="8dp"
         android:scrollbars="vertical"
+        android:text="Some description sample. Some description sample. Many many many many many many many many text"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_title_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/exam_info_title_tv" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/total_questions"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_description_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/exam_info_description_tv" />
 
     <TextView
         android:id="@+id/textView12"
@@ -64,49 +66,39 @@
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <TextView
-        android:id="@+id/result_total_questions_tv"
+        android:id="@+id/exam_info_total_questions_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="50"
-        app:layout_constraintStart_toEndOf="@+id/result_to_exam_list_btn"
+        app:layout_constraintStart_toEndOf="@+id/exam_info_start_btn"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
     <TextView
-        android:id="@+id/result_correct_tv"
+        android:id="@+id/exam_info_your_result_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sample_result"
-        app:layout_constraintStart_toStartOf="@+id/result_total_questions_tv"
+        app:layout_constraintStart_toStartOf="@+id/exam_info_total_questions_tv"
         app:layout_constraintTop_toTopOf="@+id/textView12" />
 
     <TextView
-        android:id="@+id/result_completion_date"
+        android:id="@+id/exam_info_completion_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sample_date"
-        app:layout_constraintStart_toStartOf="@+id/result_correct_tv"
+        app:layout_constraintStart_toStartOf="@+id/exam_info_your_result_tv"
         app:layout_constraintTop_toTopOf="@+id/textView13" />
 
     <Button
-        android:id="@+id/result_to_exam_list_btn"
+        android:id="@+id/exam_info_start_btn"
         style="@style/CustomButton"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/to_exam_list"
+        android:layout_marginTop="8dp"
+        android:text="@string/start"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-    <Button
-        android:id="@+id/result_pass_again_btn"
-        style="@style/CustomButton"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/pass_again"
-        app:layout_constraintEnd_toEndOf="@+id/result_to_exam_list_btn"
-        app:layout_constraintStart_toStartOf="@+id/result_to_exam_list_btn"
-        app:layout_constraintTop_toBottomOf="@+id/result_to_exam_list_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

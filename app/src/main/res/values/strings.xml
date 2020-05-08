@@ -29,7 +29,7 @@
     <string name="hint" translatable="false">Hint</string>
     <string name="test_result" translatable="false">Test results:</string>
     <string name="count_questions" translatable="false">Count of the questions</string>
-    <string name="correct_answers" translatable="false">Correct answers</string>
+    <string name="correct_answers" translatable="false">Correct answers:</string>
     <string name="message_text">Message text</string>
     <string name="result_button" translatable="false">Results</string>
     <string-array name="data_arrays">
@@ -54,8 +54,13 @@
     <string name="completion_date">Completion date:</string>
     <string name="sample_date">29.04.20</string>
     <string name="sample_result">78</string>
-    <string name="your_result">Your result:</string>
     <string name="total_questions">Total questions:</string>
-    <string name="not_started">Not started</string>
+    <string name="not_passed">Not passed</string>
 
+    <string name="java_basic_name">Java Basic Exam</string>
+    <string name="java_basic_desc"> </string>
+    <string name="show_hint">Show hint?</string>
+    <string name="clear_progress">Clear your progress?</string>
+    <string name="to_exam_list">To exam list</string>
+    <string name="pass_again">Pass again</string>
 </resources>

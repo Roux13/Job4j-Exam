@@ -1,4 +1,4 @@
-package ru.job4j.exam;
+package ru.job4j.exam.exams;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,34 +12,37 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import ru.job4j.exam.R;
 import ru.job4j.exam.entitties.Exam;
-import ru.job4j.exam.global.ExamsFragmentListener;
+import ru.job4j.exam.utils.ExamTextFormat;
+import ru.job4j.exam.utils.StringBundleKeys;
 
-public class AddExamFragment extends Fragment {
+public class UpdateFragment extends Fragment {
 
     private ExamsFragmentListener listener;
 
-    private EditText examTitleEdit;
+    private Exam exam;
 
-    public AddExamFragment() {
+    public UpdateFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_exam_add, container, false);
+        View view = inflater.inflate(R.layout.fragment_add, container, false);
 
-        examTitleEdit = view.findViewById(R.id.exam_title);
+        exam = (Exam) getArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
+        final EditText examTitleEdit = view.findViewById(R.id.exam_title);
+        examTitleEdit.setText(exam.getTitle());
         Button saveBtn = view.findViewById(R.id.save);
-        saveBtn.setOnClickListener(this::onSaveClick);
+        saveBtn.setOnClickListener(
+                btn -> {
+                    exam.setTitle(examTitleEdit.getText().toString());
+                    listener.updateExam(exam);
+                    listener.callExamsFragment();
+                }
+        );
         return view;
-    }
-
-    public void onSaveClick(View view) {
-        Exam exam = new Exam(examTitleEdit.getText().toString());
-        listener.addExam(exam);
-        listener.callExamsFragment();
     }
 
     @Override
@@ -48,8 +51,7 @@ public class AddExamFragment extends Fragment {
         try {
             this.listener = (ExamsFragmentListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(String.format(
-                    "Class %s must implement %s interface",
+            throw new ClassCastException(ExamTextFormat.formatAttachExceptionMessage(
                     context.getClass().getSimpleName(),
                     listener.getClass().getSimpleName()));
         }

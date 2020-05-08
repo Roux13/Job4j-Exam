@@ -1,7 +1,6 @@
-package ru.job4j.exam;
+package ru.job4j.exam.examination;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,29 +19,37 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Locale;
 
+import ru.job4j.exam.R;
 import ru.job4j.exam.entitties.Answer;
+import ru.job4j.exam.entitties.Exam;
 import ru.job4j.exam.entitties.Question;
-import ru.job4j.exam.store.QuestionStore;
+import ru.job4j.exam.exams.ExamsFragment;
 import ru.job4j.exam.store.UserAnswersStore;
+import ru.job4j.exam.utils.ExamTextFormat;
+import ru.job4j.exam.utils.StringBundleKeys;
 
 public class ExamFragment extends Fragment {
 
     private static final String POSITION_KEY = "position";
-    public static final String HINT_FOR = "hint_for";
-    public static final String QUESTION_TEXT = "question_text";
     public static final String CORRECT = "correct_answers";
+    public static final String USER_ANSWERS = "user_answers";
 
-    private final QuestionStore store = QuestionStore.getInstance();
-    private final UserAnswersStore answersStore = UserAnswersStore.getInstance();
+    private List<Question> questions;
+    private List<Answer> answers;
+    private UserAnswersStore answersStore;
 
     private View view;
+    private RadioGroup variants;
+
+    private Exam exam;
 
     private int position = 0;
     private int correctAnswers = 0;
 
-    private HintButtonClickListener hintButtonClickListener;
+    private ExamListener listener;
 
     public ExamFragment() {
     }
@@ -60,9 +67,15 @@ public class ExamFragment extends Fragment {
         if (savedInstanceState != null) {
             this.position = savedInstanceState.getInt(POSITION_KEY);
             this.correctAnswers = savedInstanceState.getInt(CORRECT);
+            this.answersStore = (UserAnswersStore) savedInstanceState.getSerializable(USER_ANSWERS);
         }
 
+        exam = (Exam) getArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
+        questions = listener.getAllQuestionsByExam(exam);
+        answersStore = new UserAnswersStore(questions.size());
+
         this.fillForm();
+
         final Button nextButton = view.findViewById(R.id.next);
         final Button hintButton = view.findViewById(R.id.hint);
         final Button previousButton = view.findViewById(R.id.previous);
@@ -75,7 +88,6 @@ public class ExamFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        final RadioGroup variants = this.view.findViewById(R.id.variants);
         int id = variants.getCheckedRadioButtonId();
         answersStore.set(position, id);
     }
@@ -85,24 +97,26 @@ public class ExamFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putInt(POSITION_KEY, position);
         outState.putInt(CORRECT, correctAnswers);
+        outState.putSerializable(USER_ANSWERS, answersStore);
     }
 
     private void fillForm() {
         this.view.findViewById(R.id.previous).setEnabled(position != 0);
         Button nextButton = this.view.findViewById(R.id.next);
-        if (position == store.size() - 1) {
+        if (position == questions.size() - 1) {
             nextButton.setText(R.string.result_button);
         } else {
             nextButton.setText(R.string.next_button);
         }
         final TextView questionTextView = this.view.findViewById(R.id.question);
-        Question question = this.store.get(this.position);
+        Question question = questions.get(this.position);
+        answers = listener.getAnswersByQuestion(question);
         questionTextView.setText(question.getText());
-        final RadioGroup variantsRadioGroup = this.view.findViewById(R.id.variants);
-        for (int index = 0; index < variantsRadioGroup.getChildCount(); index++) {
-            RadioButton radioButton = (RadioButton) variantsRadioGroup.getChildAt(index);
-            Answer answer = question.getAnswers().get(index);
-            radioButton.setId(answer.getId());
+        variants = this.view.findViewById(R.id.variants);
+        for (int index = 0; index < variants.getChildCount(); index++) {
+            RadioButton radioButton = (RadioButton) variants.getChildAt(index);
+            Answer answer = answers.get(index);
+            radioButton.setId(index + 1);
             radioButton.setText(answer.getText());
             radioButton.setChecked(answersStore.get(position) == radioButton.getId());
         }
@@ -111,7 +125,7 @@ public class ExamFragment extends Fragment {
     private void showAnswer() {
         final RadioGroup variants = this.view.findViewById(R.id.variants);
         int id = variants.getCheckedRadioButtonId();
-        Question question = this.store.get(this.position);
+        Question question = questions.get(this.position);
         Toast.makeText(
                 getContext(),
                 String.format(
@@ -123,15 +137,14 @@ public class ExamFragment extends Fragment {
     }
 
     private void nextBtn(View view) {
-        final RadioGroup variants = this.view.findViewById(R.id.variants);
         if (variants.getCheckedRadioButtonId() != -1) {
             answersStore.set(position, variants.getCheckedRadioButtonId());
             correctAnswers = countCorrectAnswers();
             showAnswer();
-            if (position == store.size() - 1) {
-                Intent intent = new Intent(getContext(), ResultActivity.class);
-                intent.putExtra(CORRECT, correctAnswers);
-                startActivity(intent);
+            if (position == questions.size() - 1) {
+                exam.setResult(correctAnswers);
+                exam.setTime(System.currentTimeMillis());
+                listener.toResultScreen(exam);
             } else {
                 position++;
                 variants.clearCheck();
@@ -146,10 +159,7 @@ public class ExamFragment extends Fragment {
     }
 
     private void hintBtn(View view) {
-        Bundle args = new Bundle();
-        args.putInt(HINT_FOR, position);
-        args.putString(QUESTION_TEXT, store.get(position).getText());
-        hintButtonClickListener.hintButtonClicked(args);
+        listener.toHintScreen(questions.get(position));
     }
 
     private void prevBtn(View view) {
@@ -166,7 +176,7 @@ public class ExamFragment extends Fragment {
     private int countCorrectAnswers() {
         int count = 0;
         for (int index = 0; index < answersStore.size(); index++) {
-            if (answersStore.get(index) == store.get(index).getAnswer()) {
+            if (answersStore.get(index) == questions.get(index).getAnswer()) {
                 count++;
             }
         }
@@ -177,15 +187,18 @@ public class ExamFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            this.hintButtonClickListener = (HintButtonClickListener) context;
+            this.listener = (ExamListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(String.format("%s must implement HintButtonClickListener",
-                    context.toString()));
+            throw new ClassCastException(ExamTextFormat.formatAttachExceptionMessage(
+                    context.getClass().getSimpleName(),
+                    listener.getClass().getSimpleName()));
         }
     }
 
-    public interface HintButtonClickListener {
-        void hintButtonClicked(Bundle examArgs);
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.listener = null;
     }
 
     @Override
@@ -195,10 +208,14 @@ public class ExamFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.to_exams) {
-            Intent intent = new Intent(getContext(), ExamsActivity.class);
-            startActivity(intent);
+        int id = item.getItemId();
+        if (id == R.id.to_exams) {
+            listener.returnToExams();
             return true;
+        } else if (id == android.R.id.home) {
+            getActivity().onBackPressed();
+            return true;
+
         } else {
             return super.onOptionsItemSelected(item);
         }

@@ -17,11 +17,8 @@ public interface ExamDao {
     @Query("SELECT * FROM exams")
     LiveData<List<Exam>> getAll();
 
-    @Query("SELECT * FROM exams WHERE is_selected = 1")
-    LiveData<List<Exam>> getSelectedExams();
-
-    @Query("SELECT * FROM exams WHERE _id = :id")
-    LiveData<Exam> getById(int id);
+    @Query("SELECT * FROM exams WHERE id = :id")
+    LiveData<Exam> getById(long id);
 
     @Insert
     long add(Exam exam);

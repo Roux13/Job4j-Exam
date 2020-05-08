@@ -8,12 +8,12 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "answers")
 @ForeignKey(entity = Question.class,
-        parentColumns = "_id",
+        parentColumns = "id",
         childColumns = "question_id")
 public class Answer {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "_id")
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     private int id;
 
     @ColumnInfo(name = "text")
@@ -28,6 +28,12 @@ public class Answer {
 
     public Answer(int id, String text, int questionId) {
         this.id = id;
+        this.text = text;
+        this.questionId = questionId;
+    }
+
+    @Ignore
+    public Answer(String text, int questionId) {
         this.text = text;
         this.questionId = questionId;
     }

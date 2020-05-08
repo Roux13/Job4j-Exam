@@ -1,6 +1,7 @@
-package ru.job4j.exam;
+package ru.job4j.exam.exams;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -8,19 +9,24 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import ru.job4j.exam.entitties.Answer;
 import ru.job4j.exam.entitties.Exam;
+import ru.job4j.exam.entitties.Question;
 import ru.job4j.exam.global.ExamContract;
 import ru.job4j.exam.store.ExamRepository;
 
-public class ExamViewModel extends AndroidViewModel implements ExamContract {
+public class ExamsViewModel extends AndroidViewModel implements ExamContract {
 
     private ExamRepository repository;
     private LiveData<List<Exam>> allExams;
+    private LiveData<List<Question>> questionLiveData;
+    private LiveData<List<Answer>> answerLiveData;
 
-    public ExamViewModel(@NonNull Application application) {
+    public ExamsViewModel(@NonNull Application application) {
         super(application);
         repository = new ExamRepository(application);
         allExams = repository.getAllExams();
+//        questionLiveData = repository.getAllQuestions();
     }
 
     @Override
@@ -47,5 +53,12 @@ public class ExamViewModel extends AndroidViewModel implements ExamContract {
         repository.deleteAllExams();
     }
 
+    public List<Question> getAllQuestionsByExam(Exam exam) {
+        return repository.getAllQuestionsByExam(exam);
+    }
+
+    public List<Question> getAllQuestions() {
+        return repository.getAllQuestions();
+    }
 
 }

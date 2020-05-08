@@ -6,13 +6,14 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity(tableName = "exams")
 public class Exam implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "_id")
-    private int id;
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    private long id;
 
     @ColumnInfo(name = "title")
     private String title;
@@ -24,19 +25,24 @@ public class Exam implements Serializable {
     defaultValue = "0")
     private int result;
 
-    @ColumnInfo(name = "date")
+    @ColumnInfo(name = "date",
+            defaultValue = "0")
     private long time;
 
-    @ColumnInfo(name = "is_selected",
-    defaultValue = "0")
-    private boolean isSelected;
-
-    public Exam(int id, String title, String desc, int result, long time, boolean isSelected) {
+    public Exam(long id, String title, String desc, int result, long time) {
         this.id = id;
         this.title = title;
+        this.desc = desc;
         this.time = time;
         this.result = result;
-        this.isSelected = isSelected;
+    }
+
+    @Ignore
+    public Exam(String title, String desc, int result, long time) {
+        this.title = title;
+        this.desc = desc;
+        this.time = time;
+        this.result = result;
     }
 
     @Ignore
@@ -44,8 +50,9 @@ public class Exam implements Serializable {
         this.title = title;
     }
 
-    public boolean isSelected() {
-        return isSelected;
+    @Ignore
+    public Exam(long id, String title, String desc) {
+        this(id, title, desc, 0, 0L);
     }
 
     public String getTitle() {
@@ -64,7 +71,7 @@ public class Exam implements Serializable {
         return result;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -84,21 +91,21 @@ public class Exam implements Serializable {
         this.time = time;
     }
 
-    public void setSelected(boolean selected) {
-        isSelected = selected;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Exam exam = (Exam) o;
-        return id == exam.id;
+        return id == exam.id &&
+                result == exam.result &&
+                time == exam.time &&
+                Objects.equals(title, exam.title) &&
+                Objects.equals(desc, exam.desc);
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return Objects.hash(id, title, desc, result, time);
     }
 
     @Override

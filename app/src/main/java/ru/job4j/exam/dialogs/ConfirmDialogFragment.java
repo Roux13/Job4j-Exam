@@ -12,49 +12,42 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import ru.job4j.exam.R;
+import ru.job4j.exam.utils.ExamTextFormat;
 
-public class ConfirmHintDialogFragment extends DialogFragment {
+public class ConfirmDialogFragment extends DialogFragment {
 
-    private ConfirmHintDialogListener callback;
+    public static final String DIALOG_MESSAGE_KEY = "dialog_message_key";
+
+    private ConfirmDialogListener callback;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
         Dialog dialog = new AlertDialog.Builder(getActivity())
-//                .setMessage("Show hint?")
-                .setView(inflater.inflate(R.layout.dialog, null))
+                .setTitle(getArguments().getString(DIALOG_MESSAGE_KEY))
                 .setPositiveButton(android.R.string.ok, this::onPositiveClick)
                 .setNegativeButton(android.R.string.cancel, this::onNegativeClick)
                 .create();
         return dialog;
     }
 
-    public interface ConfirmHintDialogListener {
-
-        void onPositiveDialogClick(DialogFragment dialog);
-
-        void onNegativeDialogCLick(DialogFragment dialog);
-
-    }
-
     public void onPositiveClick(DialogInterface dialog, int i) {
-        callback.onPositiveDialogClick(ConfirmHintDialogFragment.this);
+        callback.onPositiveDialogClick(ConfirmDialogFragment.this);
     }
 
     public void  onNegativeClick(DialogInterface dialog, int i) {
-        callback.onNegativeDialogCLick(ConfirmHintDialogFragment.this);
+        callback.onNegativeDialogCLick(ConfirmDialogFragment.this);
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            this.callback = (ConfirmHintDialogListener) context;
+            this.callback = (ConfirmDialogListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(
-                    String.format("%s must implement ConfirmHintDialogListener",
-                            context.toString())
+            throw new ClassCastException(ExamTextFormat.formatAttachExceptionMessage(
+                    context.getClass().getSimpleName(),
+                    callback.getClass().getSimpleName())
             );
         }
     }

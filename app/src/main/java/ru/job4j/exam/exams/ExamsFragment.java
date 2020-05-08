@@ -1,7 +1,6 @@
-package ru.job4j.exam;
+package ru.job4j.exam.exams;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,20 +15,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
+import ru.job4j.exam.R;
 import ru.job4j.exam.dialogs.ConfirmDeletingDialogFragment;
 import ru.job4j.exam.entitties.Exam;
-import ru.job4j.exam.global.ExamsFragmentListener;
+import ru.job4j.exam.utils.ExamTextFormat;
 
 public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFragment.DeleteDialogConfirmListener {
-
-    public static final String SENT_EXAM_KEY = "ru_job4_exam_key";
 
     private ExamsFragmentListener listener;
 
@@ -42,7 +37,7 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     @Override
@@ -93,28 +88,30 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
         public void onBindViewHolder(@NonNull ExamHolder holder, int position) {
             final Exam exam = exams.get(position);
             holder.itemView.setBackgroundColor(getColor(position));
-            holder.itemView.setOnClickListener(this::onItemClick);
+            holder.itemView.setOnClickListener((view) -> listener.callExamInfoActivity(exam));
+
             final TextView infoTextView = holder.view.findViewById(R.id.info);
             final TextView resultTextView = holder.view.findViewById(R.id.result);
             final TextView dateTextView = holder.view.findViewById(R.id.date);
-            final ImageView editExamImgV = holder.view.findViewById(R.id.edit_exam_btn);
-            final ImageView deleteExamImgV = holder.view.findViewById(R.id.delete_exam_btn);
+//            final ImageView editExamImgV = holder.view.findViewById(R.id.edit_exam_btn);
+//            final ImageView deleteExamImgV = holder.view.findViewById(R.id.delete_exam_btn);
 
-            editExamImgV.setOnClickListener(btn -> listener.callUpdateExamFragment(exam));
-
-            deleteExamImgV.setOnClickListener(btn -> {
-                listener.deleteExam(exam);
-                notifyItemRemoved(position);
-            });
+//            editExamImgV.setOnClickListener(btn -> listener.callUpdateExamFragment(exam));
+//
+//            deleteExamImgV.setOnClickListener(btn -> {
+//                listener.deleteExam(exam);
+//                notifyItemRemoved(position);
+//            });
 
 
             infoTextView.setText(exam.getTitle());
-            resultTextView.setText(String.valueOf(exam.getResult()));
-            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
+            resultTextView.setText(
+                    ExamTextFormat.formatResultToPercent(
+                            exam.getResult(), listener.getNumberOfQuestions(exam)));
             if (exam.getTime() > 0) {
-                dateTextView.setText(dateFormat.format(exam.getTime()));
+                dateTextView.setText(ExamTextFormat.formatDate(getContext(), exam.getTime()));
             } else {
-                dateTextView.setText(R.string.not_started);
+                dateTextView.setText(R.string.not_passed);
             }
         }
 
@@ -130,10 +127,6 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
             } else {
                 return 0;
             }
-        }
-
-        private void onItemClick(View view) {
-            startActivity(new Intent(getContext(), ExamInfoActivity.class));
         }
 
         private int getColor(int position) {
@@ -182,8 +175,7 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
         try {
             this.listener = (ExamsFragmentListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(String.format(
-                    "Class %s must implement %s interface",
+            throw new ClassCastException(ExamTextFormat.formatAttachExceptionMessage(
                     context.getClass().getSimpleName(),
                     listener.getClass().getSimpleName()));
         }

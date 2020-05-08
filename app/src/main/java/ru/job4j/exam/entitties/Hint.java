@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "hints")
 @ForeignKey(entity = Question.class,
-        parentColumns = "_id",
+        parentColumns = "id",
         childColumns = "question_id")
 public class Hint {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "_id")
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     private int id;
 
     @ColumnInfo(name = "text")
