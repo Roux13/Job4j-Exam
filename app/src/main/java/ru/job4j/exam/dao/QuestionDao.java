@@ -26,4 +26,7 @@ public interface QuestionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long add(Question question);
+
+    @Query("SELECT * FROM questions WHERE id = :id")
+    Question getById(long id);
 }

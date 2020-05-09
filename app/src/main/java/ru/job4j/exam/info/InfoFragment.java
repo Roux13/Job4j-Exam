@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import ru.job4j.exam.R;
 import ru.job4j.exam.entitties.Exam;
-import ru.job4j.exam.exams.ExamsFragment;
 import ru.job4j.exam.utils.ExamTextFormat;
 import ru.job4j.exam.utils.StringBundleKeys;
 

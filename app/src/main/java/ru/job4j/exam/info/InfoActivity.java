@@ -3,7 +3,6 @@ package ru.job4j.exam.info;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import ru.job4j.exam.examination.ExamActivity;
 import ru.job4j.exam.entitties.Exam;
 import ru.job4j.exam.exams.ExamsViewModel;
-import ru.job4j.exam.exams.ExamsFragment;
 import ru.job4j.exam.global.BaseActivity;
 import ru.job4j.exam.utils.StringBundleKeys;
 

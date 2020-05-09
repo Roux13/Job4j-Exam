@@ -26,7 +26,6 @@ import ru.job4j.exam.R;
 import ru.job4j.exam.entitties.Answer;
 import ru.job4j.exam.entitties.Exam;
 import ru.job4j.exam.entitties.Question;
-import ru.job4j.exam.exams.ExamsFragment;
 import ru.job4j.exam.store.UserAnswersStore;
 import ru.job4j.exam.utils.ExamTextFormat;
 import ru.job4j.exam.utils.StringBundleKeys;

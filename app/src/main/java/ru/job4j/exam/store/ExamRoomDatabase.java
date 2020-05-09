@@ -67,7 +67,7 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
                         QuestionDao questionDao = INSTANCE.questionDao();
                         AnswerDao answerDao = INSTANCE.answerDao();
                         HintDao hintDao = INSTANCE.hintDao();
-                        if (examDao.getById(1) == null) {
+                        if (questionDao.getById(1) == null) {
                             answerDao.deleteAll();
                             questionDao.deleteAll();
                             examDao.deleteAll();
