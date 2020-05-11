@@ -120,9 +120,9 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
                             answerDao.add(new Answer(5, "2.1", 2));
                             answerDao.add(new Answer(6, "2.2", 2));
                             answerDao.add(new Answer(7, "2.3", 2));
-                            answerDao.add(new Answer(8, "2.4", 2));
+                            answerDao.add(new Answer(8, "2.4 Correct", 2));
                             answerDao.add(new Answer(9, "3.1", 3));
-                            answerDao.add(new Answer(10, "3.2", 3));
+                            answerDao.add(new Answer(10, "3.2 Correct", 3));
                             answerDao.add(new Answer(11, "3.3", 3));
                             answerDao.add(new Answer(12, "3.4", 3));
 
@@ -145,13 +145,13 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
                             answerDao.add(new Answer(13, "1.1", 4));
                             answerDao.add(new Answer(14, "1.2", 4));
                             answerDao.add(new Answer(15, "1.3", 4));
-                            answerDao.add(new Answer(16, "1.4", 4));
+                            answerDao.add(new Answer(16, "1.4 Correct", 4));
                             answerDao.add(new Answer(17, "2.1", 5));
                             answerDao.add(new Answer(18, "2.2", 5));
                             answerDao.add(new Answer(19, "2.3", 5));
-                            answerDao.add(new Answer(20, "2.4", 5));
+                            answerDao.add(new Answer(20, "2.4 Correct", 5));
                             answerDao.add(new Answer(21, "3.1", 6));
-                            answerDao.add(new Answer(22, "3.2", 6));
+                            answerDao.add(new Answer(22, "3.2 Correct", 6));
                             answerDao.add(new Answer(23, "3.3", 6));
                             answerDao.add(new Answer(24, "3.4", 6));
 
@@ -174,13 +174,13 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
                             answerDao.add(new Answer(25, "1.1", 7));
                             answerDao.add(new Answer(26, "1.2", 7));
                             answerDao.add(new Answer(27, "1.3", 7));
-                            answerDao.add(new Answer(28, "1.4", 7));
+                            answerDao.add(new Answer(28, "1.4 Correct", 7));
                             answerDao.add(new Answer(29, "2.1", 8));
                             answerDao.add(new Answer(30, "2.2", 8));
                             answerDao.add(new Answer(31, "2.3", 8));
-                            answerDao.add(new Answer(32, "2.4", 8));
+                            answerDao.add(new Answer(32, "2.4 Correct", 8));
                             answerDao.add(new Answer(33, "3.1", 9));
-                            answerDao.add(new Answer(34, "3.2", 9));
+                            answerDao.add(new Answer(34, "3.2 Correct", 9));
                             answerDao.add(new Answer(35, "3.3", 9));
                             answerDao.add(new Answer(36, "3.4", 9));
 

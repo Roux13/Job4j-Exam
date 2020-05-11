@@ -22,7 +22,6 @@ import ru.job4j.exam.entitties.Answer;
 import ru.job4j.exam.entitties.Exam;
 import ru.job4j.exam.entitties.Question;
 import ru.job4j.exam.exams.ExamsActivity;
-import ru.job4j.exam.exams.ExamsFragment;
 import ru.job4j.exam.global.BaseActivity;
 import ru.job4j.exam.utils.StringBundleKeys;
 
@@ -36,7 +35,6 @@ public class ExamActivity extends BaseActivity implements ExamListener, ConfirmD
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(ExaminationViewModel.class);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override

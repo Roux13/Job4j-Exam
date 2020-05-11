@@ -15,7 +15,7 @@
     <Button
         android:id="@+id/back"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         style="@style/CustomButton"
         android:text="@string/back_button" />
 </LinearLayout>

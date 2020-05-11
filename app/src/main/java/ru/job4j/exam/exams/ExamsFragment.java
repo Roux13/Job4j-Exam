@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import ru.job4j.exam.R;
 import ru.job4j.exam.dialogs.ConfirmDeletingDialogFragment;
@@ -37,14 +40,18 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exams, container, false);
-        recycler = view.findViewById(R.id.fragment_exams);
+
+        TextView toolbarTitle = view.findViewById(R.id.toolbar_title_text_view);
+        toolbarTitle.setText(getString(R.string.app_name));
+
+        recycler = view.findViewById(R.id.exams_recycler);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new ExamAdapter();
         listener.getAllExams().observe(getActivity(), exams -> adapter.setExams(exams));
@@ -87,32 +94,21 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
         @Override
         public void onBindViewHolder(@NonNull ExamHolder holder, int position) {
             final Exam exam = exams.get(position);
-            holder.itemView.setBackgroundColor(getColor(position));
             holder.itemView.setOnClickListener((view) -> listener.callExamInfoActivity(exam));
 
+            final TextView idExamTv = holder.view.findViewById(R.id.exam_id);
             final TextView infoTextView = holder.view.findViewById(R.id.info);
-            final TextView resultTextView = holder.view.findViewById(R.id.result);
-            final TextView dateTextView = holder.view.findViewById(R.id.date);
-//            final ImageView editExamImgV = holder.view.findViewById(R.id.edit_exam_btn);
-//            final ImageView deleteExamImgV = holder.view.findViewById(R.id.delete_exam_btn);
+            final TextView questionsMasteredTv = holder.view.findViewById(R.id.questions_mastered);
+            final ContentLoadingProgressBar progressBar = holder.view.findViewById(R.id.progressBar);
 
-//            editExamImgV.setOnClickListener(btn -> listener.callUpdateExamFragment(exam));
-//
-//            deleteExamImgV.setOnClickListener(btn -> {
-//                listener.deleteExam(exam);
-//                notifyItemRemoved(position);
-//            });
-
-
+            idExamTv.setText(String.valueOf(exam.getId()));
             infoTextView.setText(exam.getTitle());
-            resultTextView.setText(
-                    ExamTextFormat.formatResultToPercent(
-                            exam.getResult(), listener.getNumberOfQuestions(exam)));
-            if (exam.getTime() > 0) {
-                dateTextView.setText(ExamTextFormat.formatDate(getContext(), exam.getTime()));
-            } else {
-                dateTextView.setText(R.string.not_passed);
-            }
+            int result = exam.getResult();
+            int numberQuestions = listener.getNumberOfQuestions(exam);
+            questionsMasteredTv.setText(String.format(Locale.getDefault(),
+                    "%d of %d questions mastered",
+                    result, numberQuestions));
+            progressBar.setProgress(Math.round(result * 1.0f / numberQuestions * 100));
         }
 
         public void setExams(List<Exam> exams) {
@@ -128,18 +124,6 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
                 return 0;
             }
         }
-
-        private int getColor(int position) {
-            int color = 0;
-            if (position % 2 == 0) {
-                color = getResources().getColor(R.color.grey_item);
-            }
-            if (position % 2 != 0) {
-                color = getResources().getColor(R.color.white);
-            }
-            return color;
-        }
-
     }
 
     @Override

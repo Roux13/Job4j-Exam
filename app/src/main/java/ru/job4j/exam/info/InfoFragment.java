@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.text.method.ScrollingMovementMethod;
@@ -32,7 +33,11 @@ public class InfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_info, container, false);
 
-        TextView examTitleTv = view.findViewById(R.id.exam_info_title_tv);
+        TextView toolBarTitle = view.findViewById(R.id.info_toolbar_title);
+        Toolbar toolbar = view.findViewById(R.id.toolbar_info);
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_black_24dp);
+        toolbar.setNavigationOnClickListener((back) -> getActivity().onBackPressed());
+
         TextView examDescriptionTv = view.findViewById(R.id.exam_info_description_tv);
         TextView totalQuestionsTv = view.findViewById(R.id.exam_info_total_questions_tv);
         TextView yourResultTv = view.findViewById(R.id.exam_info_your_result_tv);
@@ -40,7 +45,7 @@ public class InfoFragment extends Fragment {
         Button startBtn = view.findViewById(R.id.exam_info_start_btn);
 
         exam = (Exam) getArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
-        examTitleTv.setText(exam.getTitle());
+        toolBarTitle.setText(exam.getTitle());
         examDescriptionTv.setText(exam.getDesc());
         examDescriptionTv.setMovementMethod(new ScrollingMovementMethod());
         int numberOfQuestions = listener.getNumberOfQuestions(exam);

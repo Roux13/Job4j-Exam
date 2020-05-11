@@ -23,7 +23,6 @@ public class InfoActivity extends BaseActivity implements InfoListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(ExamsViewModel.class);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

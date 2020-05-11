@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
+    <!--    <color name="colorPrimary">#6200EE</color>-->
+    <color name="colorPrimary">#5282B5</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#6200EE</color>
-    <color name="grey_item">#D9DDDC</color>
+    <color name="colorAccent">#26B67C</color>
+    <color name="grey_item">#F3F3F3</color>
     <color name="white">#FFFFFF</color>
-<!--    <color name="colorAccent">#03DAC5</color>-->
+    <color name="progress_green">#26B67C</color>
+    <color name="wrong_progress">#DE5458</color>
+    <color name="wrong_answer">#FF4500</color>
+    <color name="correct_answer">#32CD32</color>
+    <color name="incorrect_background">#FAE5E5</color>
+    <color name="correct_background">#C8E6C9</color>
+    <color name="default_text_color">#000000</color>
+    <color name="light_text_color">#838383</color>
+    <color name="new_question_status">#BABFBF</color>
+    <!--    <color name="colorAccent">#03DAC5</color>-->
 </resources>

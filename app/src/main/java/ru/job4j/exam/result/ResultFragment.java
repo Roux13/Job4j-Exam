@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -45,7 +46,6 @@ public class ResultFragment extends Fragment {
         TextView correctTv = view.findViewById(R.id.result_correct_tv);
         TextView completionDateTv = view.findViewById(R.id.result_completion_date);
         Button toExamListBtn = view.findViewById(R.id.result_to_exam_list_btn);
-        Button passAgainBtn = view.findViewById(R.id.result_pass_again_btn);
 
         exam = (Exam) getArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
 
@@ -55,7 +55,6 @@ public class ResultFragment extends Fragment {
         completionDateTv.setText(ExamTextFormat.formatDate(getContext(), exam.getTime()));
 
         toExamListBtn.setOnClickListener((btn -> listener.ToExamList()));
-        passAgainBtn.setOnClickListener((btn) -> listener.startExam(exam));
         return view;
     }
 

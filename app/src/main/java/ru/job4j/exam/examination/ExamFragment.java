@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,13 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 import ru.job4j.exam.R;
 import ru.job4j.exam.entitties.Answer;
@@ -33,20 +33,30 @@ import ru.job4j.exam.utils.StringBundleKeys;
 public class ExamFragment extends Fragment {
 
     private static final String POSITION_KEY = "position";
-    public static final String CORRECT = "correct_answers";
-    public static final String USER_ANSWERS = "user_answers";
+    public static final String CORRECT_KEY = "correct_answers";
+    public static final String USER_ANSWERS_KEY = "user_answers";
+    public static final String CHANGED_ANSWER_KEY = "changed_answer";
 
     private List<Question> questions;
     private List<Answer> answers;
     private UserAnswersStore answersStore;
 
     private View view;
-    private RadioGroup variants;
+
+    private ContentLoadingProgressBar progressBar;
+    private TextView questionStatus;
+    private TextView questionTextView;
+    private Map<Integer, TextView> answerViews = new HashMap<>();
+    private Button nextBtn;
 
     private Exam exam;
+    private Question question;
 
     private int position = 0;
     private int correctAnswers = 0;
+    private int progressStep;
+    private int changedAnswer = -1;
+    private int currentCorrectAnswer;
 
     private ExamListener listener;
 
@@ -65,122 +75,190 @@ public class ExamFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_exam, container, false);
         if (savedInstanceState != null) {
             this.position = savedInstanceState.getInt(POSITION_KEY);
-            this.correctAnswers = savedInstanceState.getInt(CORRECT);
-            this.answersStore = (UserAnswersStore) savedInstanceState.getSerializable(USER_ANSWERS);
+            this.correctAnswers = savedInstanceState.getInt(CORRECT_KEY);
+            this.answersStore = (UserAnswersStore) savedInstanceState.getSerializable(USER_ANSWERS_KEY);
+            this.changedAnswer = savedInstanceState.getInt(CHANGED_ANSWER_KEY);
         }
 
         exam = (Exam) getArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
+        TextView toolbarTitle = view.findViewById(R.id.toolbar_title_examination);
+        toolbarTitle.setText(exam.getTitle());
+        Toolbar toolbar = view.findViewById(R.id.examination_toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_black_24dp);
+        toolbar.setNavigationOnClickListener(back -> listener.returnToExams());
+
+        progressBar = view.findViewById(R.id.examination_progress_bar);
+        progressBar.setProgress(0);
+        progressBar.setSecondaryProgress(0);
+
+        questionStatus = view.findViewById(R.id.question_status);
+        questionTextView = view.findViewById(R.id.question);
+        answerViews.put(1, view.findViewById(R.id.answer_text_view1));
+        answerViews.put(2, view.findViewById(R.id.answer_text_view2));
+        answerViews.put(3, view.findViewById(R.id.answer_text_view3));
+        answerViews.put(4, view.findViewById(R.id.answer_text_view4));
+        for (TextView answerView : answerViews.values()) {
+            answerView.setOnClickListener(this::onAnswerClickListener);
+        }
+        nextBtn = view.findViewById(R.id.next_btn);
+
         questions = listener.getAllQuestionsByExam(exam);
+        question = questions.get(position);
         answersStore = new UserAnswersStore(questions.size());
+        progressStep = Math.round(100f / questions.size());
 
         this.fillForm();
 
-        final Button nextButton = view.findViewById(R.id.next);
-        final Button hintButton = view.findViewById(R.id.hint);
-        final Button previousButton = view.findViewById(R.id.previous);
-        nextButton.setOnClickListener(this::nextBtn);
-        hintButton.setOnClickListener(this::hintBtn);
-        previousButton.setOnClickListener(this::prevBtn);
+        nextBtn.setOnClickListener(this::nextBtn);
+
         return view;
+    }
+
+    public void onAnswerClickListener(View view) {
+        for (Map.Entry<Integer, TextView> pair : answerViews.entrySet()) {
+            pair.getValue().setClickable(false);
+            if (pair.getValue().equals(view)) {
+                changedAnswer = pair.getKey();
+            }
+        }
+        nextBtn.setVisibility(View.VISIBLE);
+        progressBar.setSecondaryProgress(progressBar.getSecondaryProgress() + progressStep);
+        if (changedAnswer != currentCorrectAnswer) {
+            incorrectState();
+            showAnswer(question);
+        } else {
+            correctAnswers++;
+            progressBar.setProgress(progressBar.getProgress() + progressStep);
+            correctState();
+            showAnswer(question);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        int id = variants.getCheckedRadioButtonId();
-        answersStore.set(position, id);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(POSITION_KEY, position);
-        outState.putInt(CORRECT, correctAnswers);
-        outState.putSerializable(USER_ANSWERS, answersStore);
+        outState.putInt(CORRECT_KEY, correctAnswers);
+        outState.putSerializable(USER_ANSWERS_KEY, answersStore);
+        outState.putInt(CHANGED_ANSWER_KEY, changedAnswer);
     }
 
     private void fillForm() {
-        this.view.findViewById(R.id.previous).setEnabled(position != 0);
-        Button nextButton = this.view.findViewById(R.id.next);
         if (position == questions.size() - 1) {
-            nextButton.setText(R.string.result_button);
-        } else {
-            nextButton.setText(R.string.next_button);
+            nextBtn.setText(R.string.result_button);
         }
-        final TextView questionTextView = this.view.findViewById(R.id.question);
-        Question question = questions.get(this.position);
+        switchState();
+        question = questions.get(position);
         answers = listener.getAnswersByQuestion(question);
+        currentCorrectAnswer = questions.get(position).getCorrectAnswerId();
         questionTextView.setText(question.getText());
-        variants = this.view.findViewById(R.id.variants);
-        for (int index = 0; index < variants.getChildCount(); index++) {
-            RadioButton radioButton = (RadioButton) variants.getChildAt(index);
-            Answer answer = answers.get(index);
-            radioButton.setId(index + 1);
-            radioButton.setText(answer.getText());
-            radioButton.setChecked(answersStore.get(position) == radioButton.getId());
+        for (Map.Entry<Integer, TextView> pair : answerViews.entrySet()) {
+            pair.getValue().setText(answers.get(pair.getKey() - 1).getText());
+//            int[] lambdaIndex = {index};
+//            answerTextView.setOnClickListener(ans -> {
+//                for (TextView answerView : answerViews) {
+//                    answerView.setClickable(false);
+//                }
+//                nextBtn.setVisibility(View.VISIBLE);
+//                progressBar.setSecondaryProgress(progressBar.getSecondaryProgress() + progressStep);
+//                if (changedAnswer != currentCorrectAnswer) {
+//                    incorrectState();
+//                    showAnswer(question);
+//                } else {
+//                    correctAnswers++;
+//                    progressBar.setProgress(progressBar.getProgress() + progressStep);
+//                    correctState();
+//                    showAnswer(question);
+//                }
+//            });
         }
     }
 
-    private void showAnswer() {
-        final RadioGroup variants = this.view.findViewById(R.id.variants);
-        int id = variants.getCheckedRadioButtonId();
-        Question question = questions.get(this.position);
-        Toast.makeText(
-                getContext(),
-                String.format(
-                        Locale.ENGLISH,
-                        "Your answer is %d, correct is %d",
-                        id, question.getAnswer()),
-                Toast.LENGTH_SHORT)
-                .show();
+    private void switchState() {
+        if (changedAnswer == -1) {
+            notSelectedState();
+        } else if (changedAnswer == currentCorrectAnswer) {
+            correctState();
+            showAnswer(question);
+        } else {
+            incorrectState();
+            showAnswer(question);
+        }
+    }
+
+    private void notSelectedState() {
+        nextBtn.setVisibility(View.GONE);
+        questionStatus.setBackgroundColor(getResources().getColor(R.color.new_question_status));
+        questionStatus.setTextColor(getResources().getColor(R.color.light_text_color));
+        questionStatus.setText(R.string.not_selected);
+        for (TextView answerView : answerViews.values()) {
+            answerView.setClickable(true);
+            answerView.setBackgroundColor(getResources().getColor(R.color.white));
+            answerView.setTextColor(getResources().getColor(R.color.default_text_color));
+        }
+
+    }
+
+    private void incorrectState() {
+        TextView answerTextView = answerViews.get(changedAnswer);
+        questionStatus.setText(R.string.incorrect);
+        questionStatus.setTextColor(getResources().getColor(R.color.wrong_progress));
+        questionStatus.setBackgroundColor(
+                getResources().getColor(R.color.incorrect_background));
+        answerTextView.setTextColor(getResources().getColor(R.color.white));
+        answerTextView.setBackgroundColor(
+                getResources().getColor(R.color.wrong_answer));
+    }
+
+    private void correctState() {
+        questionStatus.setText(R.string.correct);
+        questionStatus.setTextColor(getResources().getColor(R.color.progress_green));
+        questionStatus.setBackgroundColor(
+                getResources().getColor(R.color.correct_background));
+    }
+
+    private void showAnswer(Question question) {
+        int correctIndex = question.getCorrectAnswerId();
+        answerViews.get(correctIndex)
+                .setTextColor(getResources().getColor(R.color.white));
+        answerViews.get(correctIndex).setBackgroundColor(
+                getResources().getColor(R.color.correct_answer));
+
     }
 
     private void nextBtn(View view) {
-        if (variants.getCheckedRadioButtonId() != -1) {
-            answersStore.set(position, variants.getCheckedRadioButtonId());
-            correctAnswers = countCorrectAnswers();
-            showAnswer();
             if (position == questions.size() - 1) {
                 exam.setResult(correctAnswers);
                 exam.setTime(System.currentTimeMillis());
                 listener.toResultScreen(exam);
             } else {
                 position++;
-                variants.clearCheck();
+                changedAnswer = -1;
+                currentCorrectAnswer = questions.get(position).getCorrectAnswerId();
                 fillForm();
             }
-        } else {
-            Toast.makeText(getContext(),
-                    "Please, select variant",
-                    Toast.LENGTH_SHORT)
-                    .show();
-        }
     }
 
-    private void hintBtn(View view) {
-        listener.toHintScreen(questions.get(position));
-    }
 
-    private void prevBtn(View view) {
-        final RadioGroup variants = this.view.findViewById(R.id.variants);
-        if (variants.getCheckedRadioButtonId() != -1) {
-            answersStore.set(position, variants.getCheckedRadioButtonId());
-            correctAnswers = countCorrectAnswers();
-            position--;
-            variants.clearCheck();
-            fillForm();
-        }
-    }
+//    private void hintBtn(View view) {
+//        listener.toHintScreen(questions.get(position));
+//    }
 
-    private int countCorrectAnswers() {
-        int count = 0;
-        for (int index = 0; index < answersStore.size(); index++) {
-            if (answersStore.get(index) == questions.get(index).getAnswer()) {
-                count++;
-            }
-        }
-        return count;
-    }
+//    private void prevBtn(View view) {
+//        final RadioGroup variants = this.view.findViewById(R.id.variants);
+//        if (variants.getCheckedRadioButtonId() != -1) {
+//            answersStore.set(position, variants.getCheckedRadioButtonId());
+//            correctAnswers = countCorrectAnswers();
+//            position--;
+//            variants.clearCheck();
+//            fillForm();
+//        }
+//    }
 
     @Override
     public void onAttach(@NonNull Context context) {
