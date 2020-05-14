@@ -1,8 +1,8 @@
 # Job4j Exam
 
-It is a Android application for testing for a knowledge of the Java programming language.
+This is a knowledge testing app for Android.
 
-The app has three screens.
+There are three screens int the app.  
 
 ![Image1 of Job4jExamFirstScreen](/images/Job4jExamScreen.png)
 ![Image2 of Job4jExamFirstScreen](/images/Job4jHintScreen.png)
