@@ -1,7 +1,6 @@
 package ru.job4j.exam.store;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -58,7 +57,7 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
     private static RoomDatabase.Callback examDBCallback = new RoomDatabase.Callback() {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+            super.onCreate(db);
 
             // If you want to keep data through app restarts,
             // comment out the following block
