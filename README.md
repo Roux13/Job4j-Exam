@@ -5,10 +5,10 @@ The app uses Room database, LiveData, ViewModel.
   
 There are four screens int the app:  
   
-1. List of exams:  
+1. List of exams with last results:  
 ![Image1 of Job4jExam](/images/Job4jExamExamList.png) 
 
-2. Description and your last results if there is it:   
+2. Description and your last detailed results if there is it:   
 ![Image2 of Job4jExam](/images/Job4jExamDescription.png)  
   
 3. Examination process:  
