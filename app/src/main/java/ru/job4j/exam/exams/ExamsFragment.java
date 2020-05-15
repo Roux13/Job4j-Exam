@@ -53,6 +53,7 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
 
         recycler = view.findViewById(R.id.exams_recycler);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler.setHasFixedSize(true);
         adapter = new ExamAdapter();
         listener.getAllExams().observe(getActivity(), exams -> adapter.setExams(exams));
 
