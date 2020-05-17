@@ -25,6 +25,12 @@ android {
         targetCompatibility = 1.8
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
 }
 
 dependencies {
@@ -46,4 +52,18 @@ dependencies {
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-common-java8:$rootProject.archLifecycleVersion"
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+    // required if you want to use Mockito for unit tests
+    testImplementation 'org.mockito:mockito-core:2.19.0'
+    // required if you want to use Mockito for Android tests
+    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
+
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    testImplementation 'org.robolectric:robolectric:4.3.1'
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
+
 }

@@ -1,6 +1,5 @@
 package ru.job4j.exam.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -11,9 +10,6 @@ import ru.job4j.exam.entitties.Answer;
 
 @Dao
 public interface AnswerDao {
-
-    @Query("SELECT * FROM answers WHERE id = :id")
-    Answer getById(int id);
 
     @Query("SELECT * FROM answers WHERE question_id = :questionId")
     List<Answer> getAnswersByQuestionId(long questionId);

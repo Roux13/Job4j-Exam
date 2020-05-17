@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity(tableName = "questions")
 public class Question implements Serializable {
@@ -55,5 +56,22 @@ public class Question implements Serializable {
 
     public int getAnswer() {
         return correctAnswerId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question = (Question) o;
+        return id == question.id &&
+                examId == question.examId &&
+                correctAnswerId == question.correctAnswerId &&
+                position == question.position &&
+                Objects.equals(text, question.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, examId, correctAnswerId, position);
     }
 }

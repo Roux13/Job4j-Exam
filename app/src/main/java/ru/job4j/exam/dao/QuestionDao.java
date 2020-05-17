@@ -12,10 +12,7 @@ import ru.job4j.exam.entitties.Question;
 @Dao
 public interface QuestionDao {
 
-    @Query("SELECT * FROM questions WHERE position = :position ORDER BY position")
-    Question getByPosition(int position);
-
-    @Query("SELECT * FROM questions WHERE exam_id = :examId")
+    @Query("SELECT * FROM questions WHERE exam_id = :examId ORDER BY position")
     List<Question> getQuestionsByExamId(long examId);
 
     @Query("SELECT * FROM questions")
