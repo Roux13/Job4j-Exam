@@ -1,5 +1,7 @@
 # Job4j Exam
 
+[![Build Status](https://travis-ci.org/Roux13/Job4j-Exam.svg?branch=master)](https://travis-ci.org/Roux13/Job4j-Exam)
+
 This is a knowledge testing app for Android. 
 The app uses Room database, LiveData, ViewModel.
   
