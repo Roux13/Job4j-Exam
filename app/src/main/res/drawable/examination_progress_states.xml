@@ -3,20 +3,23 @@
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
             <solid android:color="@color/white"/>
+            <corners android:radius="10dp"/>
         </shape>
     </item>
     <item android:id="@android:id/secondaryProgress">
         <clip>
             <shape android:shape="rectangle">
-                <solid android:color="@color/wrong_progress"/>
+                <solid android:color="@color/incorrect"/>
+                <corners android:radius="10dp"/>
             </shape>
         </clip>
     </item>
     <item android:id="@android:id/progress">
         <clip>
             <shape android:shape="rectangle">
-                <solid android:color="@color/progress_green" />
-                <stroke android:color="@color/progress_green" android:width="1dp"/>
+                <solid android:color="@color/correct" />
+                <stroke android:color="@color/correct" android:width="1dp"/>
+                <corners android:radius="10dp"/>
             </shape>
         </clip>
     </item>

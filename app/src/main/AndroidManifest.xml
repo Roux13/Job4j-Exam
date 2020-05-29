@@ -18,7 +18,9 @@
         </activity>
         <activity android:name=".result.ResultActivity" />
         <activity android:name=".hint.HintActivity" />
-        <activity android:name=".examination.ExamActivity"></activity>
+        <activity android:name=".examination.ExamActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".info.InfoActivity"/>
     </application>
 

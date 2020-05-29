@@ -117,8 +117,7 @@
             android:id="@+id/result_to_exam_list_btn"
             style="@style/CustomButton"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            app:icon="@drawable/ic_menu_to_exams"
+            android:layout_height="48dp"
             android:text="@string/to_exam_list" />
     </LinearLayout>
 

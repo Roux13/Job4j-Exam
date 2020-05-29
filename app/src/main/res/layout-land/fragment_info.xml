@@ -136,7 +136,7 @@
         <Button
             android:id="@+id/exam_info_start_btn"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="48dp"
             android:text="@string/start"
             style="@style/CustomButton" />
     </LinearLayout>

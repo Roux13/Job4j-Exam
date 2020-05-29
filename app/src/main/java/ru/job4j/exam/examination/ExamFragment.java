@@ -2,13 +2,6 @@ package ru.job4j.exam.examination;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.ContentLoadingProgressBar;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.fragment.app.Fragment;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,9 +43,10 @@ public class ExamFragment extends Fragment {
     private View view;
 
     private ContentLoadingProgressBar progressBar;
-    private TextView questionStatus;
     private TextView questionTextView;
     private Map<Integer, TextView> answerViews = new HashMap<>();
+    private ViewGroup questionStatusLayout;
+    private TextView questionStatus;
     private Button nextBtn;
 
     private Exam exam;
@@ -91,7 +91,7 @@ public class ExamFragment extends Fragment {
         progressBar.setProgress(0);
         progressBar.setSecondaryProgress(0);
 
-        questionStatus = view.findViewById(R.id.question_status);
+
         questionTextView = view.findViewById(R.id.question);
         answerViews.put(1, view.findViewById(R.id.answer_text_view1));
         answerViews.put(2, view.findViewById(R.id.answer_text_view2));
@@ -100,12 +100,14 @@ public class ExamFragment extends Fragment {
         for (TextView answerView : answerViews.values()) {
             answerView.setOnClickListener(this::onAnswerClickListener);
         }
+        questionStatusLayout = view.findViewById(R.id.question_status_layout);
+        questionStatus = view.findViewById(R.id.question_status);
         nextBtn = view.findViewById(R.id.next_btn);
 
         questions = listener.getAllQuestionsByExam(exam);
         question = questions.get(position);
         answersStore = new UserAnswersStore(questions.size());
-        progressStep = Math.round(100f / questions.size());
+        progressStep = (int) Math.ceil(100.0 / questions.size());
 
         this.fillForm();
 
@@ -121,17 +123,16 @@ public class ExamFragment extends Fragment {
                 changedAnswer = pair.getKey();
             }
         }
-        nextBtn.setVisibility(View.VISIBLE);
+        nextBtn.setEnabled(true);
         progressBar.setSecondaryProgress(progressBar.getSecondaryProgress() + progressStep);
         if (changedAnswer != currentCorrectAnswer) {
             incorrectState();
-            showAnswer(question);
         } else {
             correctAnswers++;
             progressBar.setProgress(progressBar.getProgress() + progressStep);
             correctState();
-            showAnswer(question);
         }
+        showAnswer(question);
     }
 
     @Override
@@ -159,23 +160,6 @@ public class ExamFragment extends Fragment {
         questionTextView.setText(question.getText());
         for (Map.Entry<Integer, TextView> pair : answerViews.entrySet()) {
             pair.getValue().setText(answers.get(pair.getKey() - 1).getText());
-//            int[] lambdaIndex = {index};
-//            answerTextView.setOnClickListener(ans -> {
-//                for (TextView answerView : answerViews) {
-//                    answerView.setClickable(false);
-//                }
-//                nextBtn.setVisibility(View.VISIBLE);
-//                progressBar.setSecondaryProgress(progressBar.getSecondaryProgress() + progressStep);
-//                if (changedAnswer != currentCorrectAnswer) {
-//                    incorrectState();
-//                    showAnswer(question);
-//                } else {
-//                    correctAnswers++;
-//                    progressBar.setProgress(progressBar.getProgress() + progressStep);
-//                    correctState();
-//                    showAnswer(question);
-//                }
-//            });
         }
     }
 
@@ -192,34 +176,37 @@ public class ExamFragment extends Fragment {
     }
 
     private void notSelectedState() {
-        nextBtn.setVisibility(View.GONE);
-        questionStatus.setBackgroundColor(getResources().getColor(R.color.new_question_status));
+        nextBtn.setEnabled(false);
+        questionStatusLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         questionStatus.setTextColor(getResources().getColor(R.color.light_text_color));
-        questionStatus.setText(R.string.not_selected);
+        questionStatus.setText("");
         for (TextView answerView : answerViews.values()) {
             answerView.setClickable(true);
             answerView.setBackgroundColor(getResources().getColor(R.color.white));
             answerView.setTextColor(getResources().getColor(R.color.default_text_color));
         }
+        nextBtn.setBackgroundColor(getResources().getColor(R.color.new_question_status));
 
     }
 
     private void incorrectState() {
         TextView answerTextView = answerViews.get(changedAnswer);
         questionStatus.setText(R.string.incorrect);
-        questionStatus.setTextColor(getResources().getColor(R.color.wrong_progress));
-        questionStatus.setBackgroundColor(
+        questionStatus.setTextColor(getResources().getColor(R.color.incorrect));
+        questionStatusLayout.setBackgroundColor(
                 getResources().getColor(R.color.incorrect_background));
         answerTextView.setTextColor(getResources().getColor(R.color.white));
         answerTextView.setBackgroundColor(
-                getResources().getColor(R.color.wrong_answer));
+                getResources().getColor(R.color.incorrect));
+        nextBtn.setBackgroundColor(getResources().getColor(R.color.incorrect));
     }
 
     private void correctState() {
         questionStatus.setText(R.string.correct);
-        questionStatus.setTextColor(getResources().getColor(R.color.progress_green));
-        questionStatus.setBackgroundColor(
+        questionStatus.setTextColor(getResources().getColor(R.color.correct));
+        questionStatusLayout.setBackgroundColor(
                 getResources().getColor(R.color.correct_background));
+        nextBtn.setBackgroundColor(getResources().getColor(R.color.correct));
     }
 
     private void showAnswer(Question question) {
@@ -227,7 +214,7 @@ public class ExamFragment extends Fragment {
         answerViews.get(correctIndex)
                 .setTextColor(getResources().getColor(R.color.white));
         answerViews.get(correctIndex).setBackgroundColor(
-                getResources().getColor(R.color.correct_answer));
+                getResources().getColor(R.color.correct));
 
     }
 

@@ -10,13 +10,13 @@
     </style>
 
     <style name="CustomButton">
-        <item name="buttonStyle">@style/Widget.MaterialComponents.Button.Icon</item>
-        <item name="icon">@drawable/ic_arrow_forward_black_24dp</item>
-        <item name="iconGravity">textEnd</item>
-        <item name="iconPadding">8dp</item>
+        <item name="buttonStyle">@drawable/btn_custom</item>
         <item name="android:gravity">center</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="layout_goneMarginBottom">8dp</item>
     </style>
 
     <style name="ToolBar" parent="Widget.AppCompat.Toolbar.Button.Navigation">
@@ -39,6 +39,14 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="card_view">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="cardCornerRadius">6dp</item>
     </style>
 
 </resources>

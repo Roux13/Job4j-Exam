@@ -6,11 +6,11 @@
     <color name="colorAccent">#26B67C</color>
     <color name="grey_item">#F3F3F3</color>
     <color name="white">#FFFFFF</color>
-    <color name="progress_green">#26B67C</color>
-    <color name="wrong_progress">#DE5458</color>
+    <color name="correct">#26B67C</color>
+    <color name="incorrect">#DE5458</color>
     <color name="wrong_answer">#FF4500</color>
     <color name="correct_answer">#32CD32</color>
-    <color name="incorrect_background">#FAE5E5</color>
+    <color name="incorrect_background">#EF9A9A</color>
     <color name="correct_background">#C8E6C9</color>
     <color name="default_text_color">#000000</color>
     <color name="light_text_color">#838383</color>
