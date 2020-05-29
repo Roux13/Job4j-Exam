@@ -7,7 +7,7 @@ There are four screens int the app:
   
 1. List of exams with last results:  
   
-![Image1 of Job4jExam](/images/Job4jExamExamList.png) 
+![Image1 of Job4jExam](/images/Job4jExamExamList_2_0.png) 
 
 2. Description and your last detailed results if there is it:   
   
