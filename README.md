@@ -11,16 +11,16 @@ There are four screens int the app:
 
 2. Description and your last detailed results if there is it:   
   
-![Image2 of Job4jExam](/images/Job4jExamDescription.png)  
+![Image2 of Job4jExam](/images/Job4jExamDescription2_0.png)  
   
 3. Examination process:  
   
-![Image3 of Job4jExam](/images/Job4jExamExamination.png)
-![Image4 of Job4jExam](/images/Job4jExamExamination2.png)  
+![Image3 of Job4jExam](/images/Job4jExamExamination_2_0.png)
+![Image4 of Job4jExam](/images/Job4jExamExamination2_2_0.png)  
   
 4. Results:  
   
-![Image5 of Job4jExam](/images/Job4jExamResult.png)
+![Image5 of Job4jExam](/images/Job4jExamResult_2_0.png)
   
 ## Contacts
  email: u.nehodov@gmail.com  
