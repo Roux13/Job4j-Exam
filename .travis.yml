@@ -8,11 +8,12 @@ android:
     - platform-tools
     - tools
     - build-tools-29.0.2
-    - android-28
-#    - sys-img-armeabi-v7a-android-28
-    - extra-google-m2repository
+    - $ANDROID_TARGET
+    - sys-img-armeabi-v7a-$ANDROID_TARGET
+    - extra-android-support
     - extra-android-m2repository
-    - sys-img-x86-android-28
+    - extra-google-m2repository
+#    - sys-img-x86-android-28
 
 before_install:
   - yes | sdkmanager "build-tools;29.0.2"
@@ -20,8 +21,8 @@ before_install:
   - chmod +x gradlew
 
 before_script:
-#  - android list targets
-  - echo no | android create avd --force -n test -t android-22 --abi x86 -c 100M
+  - android list targets
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_TARGET -c 100M
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
