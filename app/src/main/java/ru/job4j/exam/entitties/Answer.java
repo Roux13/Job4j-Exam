@@ -19,7 +19,7 @@ public class Answer {
     private int id;
 
     @ColumnInfo(name = "text")
-    private String text;
+    private final String text;
 
     @ColumnInfo(name = "question_id")
     private int questionId;

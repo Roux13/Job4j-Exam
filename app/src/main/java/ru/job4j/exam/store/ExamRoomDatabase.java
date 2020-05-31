@@ -13,14 +13,12 @@ import java.util.concurrent.Executors;
 
 import ru.job4j.exam.dao.AnswerDao;
 import ru.job4j.exam.dao.ExamDao;
-import ru.job4j.exam.dao.HintDao;
 import ru.job4j.exam.dao.QuestionDao;
 import ru.job4j.exam.entitties.Answer;
 import ru.job4j.exam.entitties.Exam;
-import ru.job4j.exam.entitties.Hint;
 import ru.job4j.exam.entitties.Question;
 
-@Database(entities = {Exam.class, Question.class, Answer.class, Hint.class},
+@Database(entities = {Exam.class, Question.class, Answer.class},
         version = 1, exportSchema = false)
 public abstract class ExamRoomDatabase extends RoomDatabase {
 
@@ -29,8 +27,6 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
     public abstract QuestionDao questionDao();
 
     public abstract AnswerDao answerDao();
-
-    public abstract HintDao hintDao();
 
     private static final String DB_NAME = "exam_db";
 
@@ -54,7 +50,7 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static RoomDatabase.Callback examDBCallback = new RoomDatabase.Callback() {
+    private static final RoomDatabase.Callback examDBCallback = new RoomDatabase.Callback() {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
@@ -65,12 +61,10 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
                         ExamDao examDao = INSTANCE.examDao();
                         QuestionDao questionDao = INSTANCE.questionDao();
                         AnswerDao answerDao = INSTANCE.answerDao();
-                        HintDao hintDao = INSTANCE.hintDao();
                         if (questionDao.getById(1) == null) {
                             answerDao.deleteAll();
                             questionDao.deleteAll();
                             examDao.deleteAll();
-                            hintDao.deleteAll();
                             examDao.add(new Exam(1, "Java Basic Exam",
                                     "Java is a high-level programming language originally" +
                                             " developed by Sun MicroSystems and released in 1995." +
@@ -125,10 +119,6 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
                             answerDao.add(new Answer(11, "3.3", 3));
                             answerDao.add(new Answer(12, "3.4", 3));
 
-                            hintDao.add(new Hint(1, "8", 1));
-                            hintDao.add(new Hint(2, "Hint for second question", 2));
-                            hintDao.add(new Hint(3, "Hint for third question", 3));
-
                             //Android Exam
                             questionDao.add(new Question(4,
                                     "Android Question 1?",
@@ -154,9 +144,6 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
                             answerDao.add(new Answer(23, "3.3", 6));
                             answerDao.add(new Answer(24, "3.4", 6));
 
-                            hintDao.add(new Hint(4, "Hint for first Android question", 4));
-                            hintDao.add(new Hint(5, "Hint for second Android question", 5));
-                            hintDao.add(new Hint(6, "Hint for third Android question", 6));
 
                             //SQL Exam
                             questionDao.add(new Question(7,
@@ -183,9 +170,6 @@ public abstract class ExamRoomDatabase extends RoomDatabase {
                             answerDao.add(new Answer(35, "3.3", 9));
                             answerDao.add(new Answer(36, "3.4", 9));
 
-                            hintDao.add(new Hint(7, "Hint for first SQL question", 7));
-                            hintDao.add(new Hint(8, "Hint for second SQL question", 8));
-                            hintDao.add(new Hint(9, "Hint for third SQL question", 9));
                         }
                     }
             );

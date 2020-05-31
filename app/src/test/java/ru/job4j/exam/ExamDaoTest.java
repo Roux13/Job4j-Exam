@@ -42,12 +42,10 @@ public class ExamDaoTest {
     private List<Exam> exams;
 
     @Mock
-    private Observer observer;
+    private Observer<List<Exam>> observer;
 
     @Mock
     private LifecycleOwner mockOwner;
-
-    private LifecycleRegistry lifecycle;
 
     @Rule
     public InstantTaskExecutorRule executorRule = new InstantTaskExecutorRule();
@@ -62,7 +60,7 @@ public class ExamDaoTest {
         examDao = db.examDao();
         liveData = examDao.getAll();
         liveData.observeForever(observer);
-        lifecycle = new LifecycleRegistry(mockOwner);
+        LifecycleRegistry lifecycle = new LifecycleRegistry(mockOwner);
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
         when(mockOwner.getLifecycle()).thenReturn(lifecycle);
     }
@@ -75,12 +73,11 @@ public class ExamDaoTest {
     @Test
     public void whenAddExamThenGetTheSame() {
         Exam exam = new Exam(1, "Title", "Desc", 1, 1);
-        Exam expect = exam;
 
         examDao.add(exam);
         liveData.observe(mockOwner, data -> exams = data);
         Exam actual = exams.get(0);
-        assertThat(actual, is(expect));
+        assertThat(actual, is(exam));
     }
 
     @Test
@@ -103,12 +100,11 @@ public class ExamDaoTest {
         Exam exam1 = new Exam(1, "Title1", "Desc", 1, 1);
         examDao.add(exam1);
         exam1.setDesc("Edit");
-        Exam expect = exam1;
         examDao.update(exam1);
 
         liveData.observe(mockOwner, data -> exams = data);
         Exam actual = exams.get(0);
-        assertThat(actual, is(expect));
+        assertThat(actual, is(exam1));
     }
 
     @Test

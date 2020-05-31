@@ -12,8 +12,4 @@ public interface ExaminationContract {
 
     List<Answer> getAnswersByQuestion(Question question);
 
-    void updateExamResult(Exam exam);
-
-    List<Question> getAllQuestions();
-
 }

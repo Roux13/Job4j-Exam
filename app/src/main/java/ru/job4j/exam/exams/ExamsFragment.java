@@ -2,32 +2,26 @@ package ru.job4j.exam.exams;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import java.util.List;
 import java.util.Locale;
 
 import ru.job4j.exam.R;
-import ru.job4j.exam.dialogs.ConfirmDeletingDialogFragment;
 import ru.job4j.exam.entitties.Exam;
 import ru.job4j.exam.utils.ExamTextFormat;
 
-public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFragment.DeleteDialogConfirmListener {
+public class ExamsFragment extends Fragment {
 
     private ExamsFragmentListener listener;
 
@@ -40,7 +34,6 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -52,10 +45,10 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
         toolbarTitle.setText(getString(R.string.app_name));
 
         recycler = view.findViewById(R.id.exams_recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
         recycler.setHasFixedSize(true);
         adapter = new ExamAdapter();
-        listener.getAllExams().observe(getActivity(), exams -> adapter.setExams(exams));
+        listener.getAllExams().observe(requireActivity(), exams -> adapter.setExams(exams));
 
         updateUI();
 
@@ -68,7 +61,7 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
 
     public static class ExamHolder extends RecyclerView.ViewHolder {
 
-        private View view;
+        private final View view;
 
         public ExamHolder(@NonNull View itemView) {
             super(itemView);
@@ -125,33 +118,6 @@ public class ExamsFragment extends Fragment implements ConfirmDeletingDialogFrag
                 return 0;
             }
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.exams, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_item:
-                listener.callAddExamFragment();
-                adapter.notifyDataSetChanged();
-                return true;
-            case R.id.delete_item:
-                listener.callConfirmDeletingDialog();
-                adapter.notifyDataSetChanged();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void delete() {
-        listener.deleteAllExams();
-        updateUI();
     }
 
     @Override

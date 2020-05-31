@@ -11,7 +11,6 @@ import ru.job4j.exam.entitties.Exam;
 import ru.job4j.exam.examination.ExamActivity;
 import ru.job4j.exam.exams.ExamsViewModel;
 import ru.job4j.exam.exams.ExamsActivity;
-import ru.job4j.exam.exams.ExamsFragment;
 import ru.job4j.exam.global.BaseActivity;
 import ru.job4j.exam.utils.StringBundleKeys;
 
@@ -27,7 +26,7 @@ public class ResultActivity extends BaseActivity implements ResultListener {
 
     @Override
     public Fragment loadFrg() {
-        return ResultFragment.instanceOf(getIntent().getExtras());
+        return ResultFragment.getInstance(getIntent().getExtras());
     }
 
     @Override

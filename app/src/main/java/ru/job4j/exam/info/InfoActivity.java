@@ -37,9 +37,7 @@ public class InfoActivity extends BaseActivity implements InfoListener {
 
     @Override
     public Fragment loadFrg() {
-        Fragment fragment = new InfoFragment();
-        fragment.setArguments(getIntent().getExtras());
-        return fragment;
+        return InfoFragment.getInstance(getIntent().getExtras());
     }
 
     @Override

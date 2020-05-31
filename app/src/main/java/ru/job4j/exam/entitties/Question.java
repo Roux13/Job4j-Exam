@@ -12,19 +12,19 @@ public class Question implements Serializable {
 
     @PrimaryKey
     @ColumnInfo(name = "id")
-    private long id;
+    private final long id;
 
     @ColumnInfo(name = "text")
-    private String text;
+    private final String text;
 
     @ColumnInfo(name = "exam_id")
-    private long examId;
+    private final long examId;
 
     @ColumnInfo(name = "correct_answer_id")
-    private int correctAnswerId;
+    private final int correctAnswerId;
 
     @ColumnInfo(name = "position")
-    private int position;
+    private final int position;
 
     public Question(long id, String text, long examId, int correctAnswerId, int position) {
         this.id = id;
@@ -52,10 +52,6 @@ public class Question implements Serializable {
 
     public String getText() {
         return text;
-    }
-
-    public int getAnswer() {
-        return correctAnswerId;
     }
 
     @Override

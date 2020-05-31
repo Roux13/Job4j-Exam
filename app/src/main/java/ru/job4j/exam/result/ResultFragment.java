@@ -2,20 +2,17 @@ package ru.job4j.exam.result;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import ru.job4j.exam.R;
 import ru.job4j.exam.entitties.Exam;
-import ru.job4j.exam.exams.ExamsFragment;
 import ru.job4j.exam.utils.ExamTextFormat;
 import ru.job4j.exam.utils.StringBundleKeys;
 
@@ -27,12 +24,10 @@ public class ResultFragment extends Fragment {
 
     private ResultListener listener;
 
-    private Exam exam;
-
     public ResultFragment() {
     }
 
-    public static ResultFragment instanceOf(Bundle args) {
+    public static ResultFragment getInstance(Bundle args) {
         ResultFragment fragment = new ResultFragment();
         fragment.setArguments(args);
         return fragment;
@@ -47,7 +42,10 @@ public class ResultFragment extends Fragment {
         TextView completionDateTv = view.findViewById(R.id.result_completion_date);
         Button toExamListBtn = view.findViewById(R.id.result_to_exam_list_btn);
 
-        exam = (Exam) getArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
+        Exam exam = (Exam) requireArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
+        if (exam == null) {
+            exam = new Exam("", "", 0, 0);
+        }
 
         int totalQuestions = listener.getNumberOfQuestions(exam);
         totalQuestionsTv.setText(String.valueOf(totalQuestions));

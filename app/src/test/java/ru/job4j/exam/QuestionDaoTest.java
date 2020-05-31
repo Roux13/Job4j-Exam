@@ -11,6 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import ru.job4j.exam.dao.QuestionDao;
@@ -46,12 +47,11 @@ public class QuestionDaoTest {
     @Test
     public void whenAddQuestionThenWeGetTheSame() {
         Question question = new Question(1, "text", 1, 1, 1);
-        Question expect = question;
 
         questionDao.add(question);
         Question actual = questionDao.getQuestionsByExamId(1).get(0);
 
-        assertThat(actual, is(expect));
+        assertThat(actual, is(question));
     }
 
     @Test
@@ -74,13 +74,13 @@ public class QuestionDaoTest {
         Question question1 = new Question(1, "text", 1, 1, 1);
         Question question2 = new Question(2, "text", 1, 1, 1);
         Question question3 = new Question(3, "text", 1, 1, 1);
-        List<Question> expect = Arrays.asList();
+        List<Question> expect = Collections.emptyList();
 
         questionDao.add(question1);
         questionDao.add(question2);
         questionDao.add(question3);
         questionDao.deleteAll();
-        List<Question> actual = questionDao.getQuestionsByExamId(1);;
+        List<Question> actual = questionDao.getQuestionsByExamId(1);
 
         assertThat(actual, is(expect));
     }
@@ -105,14 +105,13 @@ public class QuestionDaoTest {
         Question question1 = new Question(1, "text", 1, 1, 1);
         Question question2 = new Question(2, "text", 2, 1, 1);
         Question question3 = new Question(3, "text", 3, 1, 1);
-        Question expect = question2;
 
         questionDao.add(question1);
         questionDao.add(question2);
         questionDao.add(question3);
         Question actual = questionDao.getById(2);
 
-        assertThat(actual, is(expect));
+        assertThat(actual, is(question2));
     }
 
 }

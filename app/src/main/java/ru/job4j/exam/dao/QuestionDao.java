@@ -22,7 +22,7 @@ public interface QuestionDao {
     void deleteAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long add(Question question);
+    void add(Question question);
 
     @Query("SELECT * FROM questions WHERE id = :id")
     Question getById(long id);

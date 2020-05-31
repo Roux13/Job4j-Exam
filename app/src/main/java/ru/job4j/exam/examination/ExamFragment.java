@@ -3,16 +3,12 @@ package ru.job4j.exam.examination;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
@@ -20,12 +16,12 @@ import androidx.fragment.app.Fragment;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import ru.job4j.exam.R;
 import ru.job4j.exam.entitties.Answer;
 import ru.job4j.exam.entitties.Exam;
 import ru.job4j.exam.entitties.Question;
-import ru.job4j.exam.store.UserAnswersStore;
 import ru.job4j.exam.utils.ExamTextFormat;
 import ru.job4j.exam.utils.StringBundleKeys;
 
@@ -33,18 +29,13 @@ public class ExamFragment extends Fragment {
 
     private static final String POSITION_KEY = "position";
     public static final String CORRECT_KEY = "correct_answers";
-    public static final String USER_ANSWERS_KEY = "user_answers";
     public static final String CHANGED_ANSWER_KEY = "changed_answer";
 
     private List<Question> questions;
-    private List<Answer> answers;
-    private UserAnswersStore answersStore;
 
-    private View view;
-
+    private final Map<Integer, TextView> answerViews = new HashMap<>();
     private ContentLoadingProgressBar progressBar;
     private TextView questionTextView;
-    private Map<Integer, TextView> answerViews = new HashMap<>();
     private ViewGroup questionStatusLayout;
     private TextView questionStatus;
     private Button nextBtn;
@@ -63,24 +54,25 @@ public class ExamFragment extends Fragment {
     public ExamFragment() {
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+    public static Fragment getInstance(Exam exam) {
+        Fragment fragment = new ExamFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(StringBundleKeys.SENT_EXAM_KEY, exam);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_exam, container, false);
+        View view = inflater.inflate(R.layout.fragment_exam, container, false);
         if (savedInstanceState != null) {
             this.position = savedInstanceState.getInt(POSITION_KEY);
             this.correctAnswers = savedInstanceState.getInt(CORRECT_KEY);
-            this.answersStore = (UserAnswersStore) savedInstanceState.getSerializable(USER_ANSWERS_KEY);
             this.changedAnswer = savedInstanceState.getInt(CHANGED_ANSWER_KEY);
         }
 
-        exam = (Exam) getArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
+        exam = (Exam) requireArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
         TextView toolbarTitle = view.findViewById(R.id.toolbar_title_examination);
         toolbarTitle.setText(exam.getTitle());
         Toolbar toolbar = view.findViewById(R.id.examination_toolbar);
@@ -106,7 +98,6 @@ public class ExamFragment extends Fragment {
 
         questions = listener.getAllQuestionsByExam(exam);
         question = questions.get(position);
-        answersStore = new UserAnswersStore(questions.size());
         progressStep = (int) Math.ceil(100.0 / questions.size());
 
         this.fillForm();
@@ -136,16 +127,10 @@ public class ExamFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(POSITION_KEY, position);
         outState.putInt(CORRECT_KEY, correctAnswers);
-        outState.putSerializable(USER_ANSWERS_KEY, answersStore);
         outState.putInt(CHANGED_ANSWER_KEY, changedAnswer);
     }
 
@@ -155,7 +140,7 @@ public class ExamFragment extends Fragment {
         }
         switchState();
         question = questions.get(position);
-        answers = listener.getAnswersByQuestion(question);
+        List<Answer> answers = listener.getAnswersByQuestion(question);
         currentCorrectAnswer = questions.get(position).getCorrectAnswerId();
         questionTextView.setText(question.getText());
         for (Map.Entry<Integer, TextView> pair : answerViews.entrySet()) {
@@ -195,7 +180,7 @@ public class ExamFragment extends Fragment {
         questionStatus.setTextColor(getResources().getColor(R.color.incorrect));
         questionStatusLayout.setBackgroundColor(
                 getResources().getColor(R.color.incorrect_background));
-        answerTextView.setTextColor(getResources().getColor(R.color.white));
+        Objects.requireNonNull(answerTextView).setTextColor(getResources().getColor(R.color.white));
         answerTextView.setBackgroundColor(
                 getResources().getColor(R.color.incorrect));
         nextBtn.setBackgroundColor(getResources().getColor(R.color.incorrect));
@@ -211,9 +196,9 @@ public class ExamFragment extends Fragment {
 
     private void showAnswer(Question question) {
         int correctIndex = question.getCorrectAnswerId();
-        answerViews.get(correctIndex)
+        Objects.requireNonNull(answerViews.get(correctIndex))
                 .setTextColor(getResources().getColor(R.color.white));
-        answerViews.get(correctIndex).setBackgroundColor(
+        Objects.requireNonNull(answerViews.get(correctIndex)).setBackgroundColor(
                 getResources().getColor(R.color.correct));
 
     }
@@ -230,22 +215,6 @@ public class ExamFragment extends Fragment {
                 fillForm();
             }
     }
-
-
-//    private void hintBtn(View view) {
-//        listener.toHintScreen(questions.get(position));
-//    }
-
-//    private void prevBtn(View view) {
-//        final RadioGroup variants = this.view.findViewById(R.id.variants);
-//        if (variants.getCheckedRadioButtonId() != -1) {
-//            answersStore.set(position, variants.getCheckedRadioButtonId());
-//            correctAnswers = countCorrectAnswers();
-//            position--;
-//            variants.clearCheck();
-//            fillForm();
-//        }
-//    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -265,23 +234,4 @@ public class ExamFragment extends Fragment {
         this.listener = null;
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.exam, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.to_exams) {
-            listener.returnToExams();
-            return true;
-        } else if (id == android.R.id.home) {
-            getActivity().onBackPressed();
-            return true;
-
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
 }

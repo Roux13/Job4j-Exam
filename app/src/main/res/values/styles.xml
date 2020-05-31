@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/default_text_color</item>
+        <item name="background">@color/colorPrimary</item>
     </style>
 
     <style name="CustomButton">
@@ -17,11 +18,6 @@
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">16dp</item>
         <item name="layout_goneMarginBottom">8dp</item>
-    </style>
-
-    <style name="ToolBar" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
     <style name="auto_scroll">

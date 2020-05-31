@@ -16,7 +16,7 @@ public class Exam implements Serializable {
     private long id;
 
     @ColumnInfo(name = "title")
-    private String title;
+    private final String title;
 
     @ColumnInfo(name = "description")
     private String desc;
@@ -75,10 +75,6 @@ public class Exam implements Serializable {
         return id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void setDesc(String desc) {
         this.desc = desc;
     }
@@ -108,6 +104,7 @@ public class Exam implements Serializable {
         return Objects.hash(id, title, desc, result, time);
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public String toString() {
         return "Exam{" +

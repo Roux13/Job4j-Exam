@@ -1,37 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">Job4j Exam</string>
     <string name="question_text" translatable="false">Any question text</string>
-    <string name="radio_button1">Переключатель1</string>
-    <string name="radio_button2">Переключатель2</string>
-    <string name="radio_button3">Переключатель3</string>
-    <string name="radio_button4">Переключатель4</string>
     <string name="next_button" translatable="false">Next</string>
-    <string name="back_button" translatable="false">Back</string>
 
-    <string name="domain_prompt">Выберите область</string>
-    <string name="exp_date">Дата проведения испытания</string>
-    <string-array name="domain_arrays">
-        <item>Выберите область</item>
-        <item>Московская</item>
-        <item>СПб</item>
-    </string-array>
-
-    <string name="hint" translatable="false">Hint</string>
-    <string name="test_result" translatable="false">Test results:</string>
-    <string name="count_questions" translatable="false">Count of the questions</string>
     <string name="correct_answers" translatable="false">Correct answers:</string>
-    <string name="message_text">Message text</string>
     <string name="result_button" translatable="false">Results</string>
 
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="return_to_exam_list" translatable="false">To exam list</string>
-    <string name="dialog_question">Show hint?</string>
-    <string name="add_item">Add</string>
-    <string name="delete_item">Delete all</string>
-    <string name="save">Save</string>
-    <string name="name">Name</string>
     <string name="exam_name">Exam name</string>
-    <string name="reset">Reset</string>
     <string name="start">Start</string>
     <string name="completion_date">Completion date:</string>
     <string name="sample_date">29.04.20</string>
@@ -39,15 +14,19 @@
     <string name="total_questions">Total questions:</string>
     <string name="not_passed">Not passed</string>
 
-    <string name="java_basic_name">Java Basic Exam</string>
-    <string name="java_basic_desc"> </string>
-    <string name="show_hint">Show hint?</string>
-    <string name="clear_progress">Clear your progress?</string>
     <string name="to_exam_list">To exam list</string>
-    <string name="pass_again">Pass again</string>
-    <string name="exam_info">Exam info</string>
     <string name="results">Results</string>
     <string name="correct">Correct!</string>
     <string name="incorrect">Incorrect</string>
-    <string name="not_selected">Not selected</string>
+    <string name="layout_example_01">01</string>
+    <string name="_1_of_4_questions_mastered">1 of 4 questions mastered</string>
+    <string name="layout_example_exam_name">Exam Name</string>
+    <string name="layout_label_answer_1">Answer 1</string>
+    <string name="layout_label_answer_2">Answer 2</string>
+    <string name="layout_label_answer_3">Answer 3</string>
+    <string name="layout_label_answer_4">Answer 4</string>
+    <string name="layout_label_title">Title</string>
+    <string name="layout_label_toolbar">Toolbar</string>
+    <string name="layout_label_description">Some description sample. Some description sample. Many text</string>
+    <string name="layout_label_50">50</string>
 </resources>

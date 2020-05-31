@@ -2,17 +2,16 @@ package ru.job4j.exam.info;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import ru.job4j.exam.R;
 import ru.job4j.exam.entitties.Exam;
@@ -28,6 +27,12 @@ public class InfoFragment extends Fragment {
     public InfoFragment() {
     }
 
+    public static Fragment getInstance(Bundle args) {
+        Fragment fragment = new InfoFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,7 +41,7 @@ public class InfoFragment extends Fragment {
         TextView toolBarTitle = view.findViewById(R.id.info_toolbar_title);
         Toolbar toolbar = view.findViewById(R.id.toolbar_info);
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_black_24dp);
-        toolbar.setNavigationOnClickListener((back) -> getActivity().onBackPressed());
+        toolbar.setNavigationOnClickListener((back) -> requireActivity().onBackPressed());
 
         TextView examDescriptionTv = view.findViewById(R.id.exam_info_description_tv);
         TextView totalQuestionsTv = view.findViewById(R.id.exam_info_total_questions_tv);
@@ -44,7 +49,11 @@ public class InfoFragment extends Fragment {
         TextView completionDateTv = view.findViewById(R.id.exam_info_completion_date);
         Button startBtn = view.findViewById(R.id.exam_info_start_btn);
 
-        exam = (Exam) getArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
+        exam = (Exam) requireArguments().getSerializable(StringBundleKeys.SENT_EXAM_KEY);
+        if (exam == null) {
+            exam = new Exam("", "", 0, 0);
+        }
+
         toolBarTitle.setText(exam.getTitle());
         examDescriptionTv.setText(exam.getDesc());
         examDescriptionTv.setMovementMethod(new ScrollingMovementMethod());
@@ -55,9 +64,7 @@ public class InfoFragment extends Fragment {
         );
         completionDateTv.setText(ExamTextFormat.formatDate(getActivity(), exam.getTime()));
 
-        startBtn.setOnClickListener((v) -> {
-            listener.startExam(exam);
-        });
+        startBtn.setOnClickListener((v) -> listener.startExam(exam));
         return view;
     }
 
@@ -68,10 +75,9 @@ public class InfoFragment extends Fragment {
             this.listener = (InfoListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(
-                    String.format(ExamTextFormat.formatAttachExceptionMessage(
+                    ExamTextFormat.formatAttachExceptionMessage(
                             context.getClass().getSimpleName(),
-                            listener.getClass().getSimpleName())
-                            ));
+                            listener.getClass().getSimpleName()));
         }
     }
 

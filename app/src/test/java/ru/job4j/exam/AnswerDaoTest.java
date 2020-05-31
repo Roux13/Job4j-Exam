@@ -47,12 +47,11 @@ public class AnswerDaoTest {
     @Test
     public void whenAddAnswerThenGetTheSame() {
         Answer answer = new Answer(1, "Text", 1);
-        Answer expect = answer;
 
         answerDao.add(answer);
         Answer actual = answerDao.getAnswersByQuestionId(1).get(0);
 
-        assertThat(actual, is(expect));
+        assertThat(actual, is(answer));
     }
 
     @Test

@@ -9,13 +9,12 @@ import java.util.List;
 
 import ru.job4j.exam.entitties.Answer;
 import ru.job4j.exam.entitties.Exam;
-import ru.job4j.exam.entitties.Hint;
 import ru.job4j.exam.entitties.Question;
 import ru.job4j.exam.store.ExamRepository;
 
 public class ExaminationViewModel extends AndroidViewModel implements ExaminationContract {
 
-    private ExamRepository repository;
+    private final ExamRepository repository;
 
     public ExaminationViewModel(@NonNull Application application) {
         super(application);
@@ -32,18 +31,9 @@ public class ExaminationViewModel extends AndroidViewModel implements Examinatio
         return repository.getAnswersByQuestion(question);
     }
 
-    @Override
     public void updateExamResult(Exam exam) {
         repository.updateExamResult(exam);
     }
 
-    @Override
-    public List<Question> getAllQuestions() {
-        return repository.getAllQuestions();
-    }
-
-    public Hint getHintByQuestion(Question question) {
-        return repository.getHintByQuestion(question);
-    }
 
 }

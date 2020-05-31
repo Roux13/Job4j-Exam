@@ -18,7 +18,7 @@ public interface ExamDao {
     LiveData<List<Exam>> getAll();
 
     @Insert
-    long add(Exam exam);
+    void add(Exam exam);
 
     @Update
     void update(Exam exam);
