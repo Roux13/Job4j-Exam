@@ -10,6 +10,7 @@ android:
     - build-tools-29.0.2
     - android-29
 #    - sys-img-armeabi-v7a-android-28
+    - extra-google-m2repository
     - extra-android-m2repository
     - sys-img-x86-android-28
 
@@ -17,8 +18,9 @@ before_install:
    - chmod +x gradlew
 
 before_script:
-   - echo no | android create avd --force -n test -t android-28 --abi x86
-   - emulator -avd test -no-skin -no-audio -no-window &
+  - Create and start emulator
+  - echo no | android create avd --force -n test -t android-28 --abi x86
+  - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 #  - Create and start emulator
