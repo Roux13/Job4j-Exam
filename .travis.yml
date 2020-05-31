@@ -27,8 +27,8 @@ before_install:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
-script:
-  - ./gradlew clean build test jacocoTestReport check
+#script:
+#  - ./gradlew clean build test jacocoTestReport check
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
