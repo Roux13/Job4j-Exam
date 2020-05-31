@@ -13,13 +13,17 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
-        classpath('com.hiya:jacoco-android:0.2') {
-            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-        }
+//        classpath('com.hiya:jacoco-android:0.2') {
+//            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+//        }
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+
+//    plugins {
+//        id "com.hiya.jacoco-android" version "0.2"
+//    }
 
 }
 
