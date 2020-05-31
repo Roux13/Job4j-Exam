@@ -13,6 +13,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'org.jacoco:org.jacoco.core:0.8.5'
 //        classpath('com.hiya:jacoco-android:0.2') {
 //            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
 //        }
