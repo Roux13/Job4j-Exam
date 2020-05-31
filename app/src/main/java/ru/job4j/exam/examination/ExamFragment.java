@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
@@ -162,44 +163,74 @@ public class ExamFragment extends Fragment {
 
     private void notSelectedState() {
         nextBtn.setEnabled(false);
-        questionStatusLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        questionStatus.setTextColor(getResources().getColor(R.color.light_text_color));
+        questionStatusLayout.setBackgroundColor(ContextCompat.getColor(
+                requireActivity(),
+                R.color.colorPrimary));
+        questionStatus.setTextColor(ContextCompat.getColor(
+                requireActivity(),
+                R.color.light_text_color));
         questionStatus.setText("");
         for (TextView answerView : answerViews.values()) {
             answerView.setClickable(true);
-            answerView.setBackgroundColor(getResources().getColor(R.color.white));
-            answerView.setTextColor(getResources().getColor(R.color.default_text_color));
+            answerView.setBackgroundColor(ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.white));
+            answerView.setTextColor(ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.default_text_color));
         }
-        nextBtn.setBackgroundColor(getResources().getColor(R.color.new_question_status));
+        nextBtn.setBackgroundColor(ContextCompat.getColor(
+                requireActivity(),
+                R.color.new_question_status));
 
     }
 
     private void incorrectState() {
         TextView answerTextView = answerViews.get(changedAnswer);
         questionStatus.setText(R.string.incorrect);
-        questionStatus.setTextColor(getResources().getColor(R.color.incorrect));
+        questionStatus.setTextColor(ContextCompat.getColor(
+                requireActivity(),
+                R.color.incorrect));
         questionStatusLayout.setBackgroundColor(
-                getResources().getColor(R.color.incorrect_background));
-        Objects.requireNonNull(answerTextView).setTextColor(getResources().getColor(R.color.white));
+                ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.incorrect_background));
+        Objects.requireNonNull(answerTextView).setTextColor(ContextCompat.getColor(
+                requireActivity(),
+                R.color.white));
         answerTextView.setBackgroundColor(
-                getResources().getColor(R.color.incorrect));
-        nextBtn.setBackgroundColor(getResources().getColor(R.color.incorrect));
+                ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.incorrect));
+        nextBtn.setBackgroundColor(ContextCompat.getColor(
+                requireActivity(),
+                R.color.incorrect));
     }
 
     private void correctState() {
         questionStatus.setText(R.string.correct);
-        questionStatus.setTextColor(getResources().getColor(R.color.correct));
+        questionStatus.setTextColor(ContextCompat.getColor(
+                requireActivity(),
+                R.color.correct));
         questionStatusLayout.setBackgroundColor(
-                getResources().getColor(R.color.correct_background));
-        nextBtn.setBackgroundColor(getResources().getColor(R.color.correct));
+                ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.correct_background));
+        nextBtn.setBackgroundColor(ContextCompat.getColor(
+                requireActivity(),
+                R.color.correct));
     }
 
     private void showAnswer(Question question) {
         int correctIndex = question.getCorrectAnswerId();
         Objects.requireNonNull(answerViews.get(correctIndex))
-                .setTextColor(getResources().getColor(R.color.white));
+                .setTextColor(ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.white));
         Objects.requireNonNull(answerViews.get(correctIndex)).setBackgroundColor(
-                getResources().getColor(R.color.correct));
+                ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.correct));
 
     }
 
