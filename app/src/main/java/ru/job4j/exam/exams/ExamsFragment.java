@@ -100,7 +100,7 @@ public class ExamsFragment extends Fragment {
             int result = exam.getResult();
             int numberQuestions = listener.getNumberOfQuestions(exam);
             questionsMasteredTv.setText(String.format(Locale.getDefault(),
-                    "%d of %d questions mastered",
+                    getString(R.string.mastered_questions),
                     result, numberQuestions));
             progressBar.setProgress(Math.round(result * 1.0f / numberQuestions * 100));
         }

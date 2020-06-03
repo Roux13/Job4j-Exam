@@ -29,4 +29,5 @@
     <string name="layout_label_toolbar">Toolbar</string>
     <string name="layout_label_description">Some description sample. Some description sample. Many text</string>
     <string name="layout_label_50">50</string>
+    <string name="mastered_questions">%d of %d questions mastered</string>
 </resources>

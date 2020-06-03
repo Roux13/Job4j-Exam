@@ -36,6 +36,7 @@ env:
   matrix:
     #- ANDROID_TARGET=android-17 ANDROID_ABI=google_apis/armeabi-v7a
     #- ANDROID_TARGET=android-29 ANDROID_ABI=armeabi-v7a
+    - API=21
     - API=24
 # Emulator Management: Create, Start and Wait
 install:
@@ -52,12 +53,13 @@ install:
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
   - emulator -verbose -avd test -no-accel -no-snapshot -no-window $AUDIO -camera-back none -camera-front none -selinux permissive -qemu -m 1536 &
   - android-wait-for-emulator
+  - adb devices
   - adb shell input keyevent 82 &
 
 #script: ./gradlew connectedAndroidTest
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+#  - bash <(curl -s https://codecov.io/bash)
   - codecov                       #Run codecov
 
 #script:

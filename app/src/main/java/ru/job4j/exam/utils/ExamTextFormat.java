@@ -8,7 +8,7 @@ import java.util.Locale;
 
 import ru.job4j.exam.R;
 
-public class ExamTextFormat {
+public final class ExamTextFormat {
 
     private static final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yy", Locale.US);
 
