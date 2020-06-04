@@ -36,7 +36,7 @@ env:
   matrix:
     #- ANDROID_TARGET=android-17 ANDROID_ABI=google_apis/armeabi-v7a
     #- ANDROID_TARGET=android-29 ANDROID_ABI=armeabi-v7a
-    - API=21
+#    - API=21
     - API=24
 # Emulator Management: Create, Start and Wait
 install:

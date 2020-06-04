@@ -120,8 +120,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-common-java8:$rootProject.archLifecycleVersion"
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-
     // required if you want to use Mockito for unit tests
     testImplementation 'org.mockito:mockito-core:2.19.0'
     // required if you want to use Mockito for Android tests
