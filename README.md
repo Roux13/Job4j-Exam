@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/Roux13/Job4j-Exam.svg?branch=master)](https://travis-ci.org/Roux13/Job4j-Exam)
-[![codecov](https://codecov.io/gh/Roux13/Job4j-Exam/branch/master/graph/badge.svg)](https://codecov.io/gh/Roux13/Job4j-Exam)
 
 # Job4j Exam
 
